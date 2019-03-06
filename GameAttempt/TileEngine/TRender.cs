@@ -30,6 +30,7 @@ namespace GameAttempt
 
         //Audio
         public Song BackgroundMusic;
+        public bool hasLevelChanged = false;
 
         //Level States
         public enum LevelStates { LevelOne, LevelTwo, LevelThree, LevelFour };
@@ -251,12 +252,15 @@ namespace GameAttempt
             {
                 case LevelStates.LevelOne:
 
-                    PlayAudio(BackgroundMusic);
+                    PlayAudio();
+
+                    hasLevelChanged = false;
 
                     if (InputManager.IsButtonPressed(Buttons.RightTrigger))
                     {
                         _current = LevelStates.LevelTwo;
                         tileManager.ActiveLayer = tileManager.GetLayer("LevelTwo");
+                        hasLevelChanged = true;
 
                         // Creates a set of impassable tiles
                         tileManager.ActiveLayer.makeImpassable(impassableTiles);
@@ -265,12 +269,15 @@ namespace GameAttempt
 
                 case LevelStates.LevelTwo:
 
-                    PlayAudio(BackgroundMusic);
+                    PlayAudio();
+
+                    hasLevelChanged = false;
 
                     if (InputManager.IsButtonPressed(Buttons.RightShoulder))
                     {
                         _current = LevelStates.LevelThree;
                         tileManager.ActiveLayer = tileManager.GetLayer("LevelThree");
+                        hasLevelChanged = true;
 
                         // Creates a set of impassable tiles
                         tileManager.ActiveLayer.makeImpassable(impassableTiles);
@@ -279,12 +286,15 @@ namespace GameAttempt
 
                 case LevelStates.LevelThree:
 
-                    PlayAudio(BackgroundMusic);
+                    PlayAudio();
+
+                    hasLevelChanged = false;
 
                     if (InputManager.IsButtonPressed(Buttons.LeftTrigger))
                     {
                         _current = LevelStates.LevelFour;
                         tileManager.ActiveLayer = tileManager.GetLayer("LevelFour");
+                        hasLevelChanged = true;
 
                         // Creates a set of impassable tiles
                         tileManager.ActiveLayer.makeImpassable(impassableTiles);
@@ -293,12 +303,15 @@ namespace GameAttempt
 
                 case LevelStates.LevelFour:
 
-                    PlayAudio(BackgroundMusic);
+                    PlayAudio();
+
+                    hasLevelChanged = false;
 
                     if (InputManager.IsButtonPressed(Buttons.LeftShoulder))
                     {
                         _current = LevelStates.LevelOne;
                         tileManager.ActiveLayer = tileManager.GetLayer("LevelOne");
+                        hasLevelChanged = true;
 
                         // Creates a set of impassable tiles
                         tileManager.ActiveLayer.makeImpassable(impassableTiles);
@@ -307,14 +320,22 @@ namespace GameAttempt
             }
             base.Update(gameTime);
         }
-
-        public void PlayAudio(Song backgroundMusic)
+        //Audio code
+        public void PlayAudio()
         {
-            if (MediaPlayer.State != MediaState.Playing)
+            if (MediaPlayer.State != MediaState.Playing /*&& !hasLevelChanged*/)
             {
-                MediaPlayer.Play(backgroundMusic);
+                MediaPlayer.Play(BackgroundMusic);
                 MediaPlayer.Volume = .5f;
                 MediaPlayer.IsRepeating = true;
+            }
+            else if (MediaPlayer.State == MediaState.Playing && hasLevelChanged)
+            {
+                MediaPlayer.Stop();
+                //MediaPlayer.MoveNext();
+                //MediaPlayer.Play(BackgroundMusic);
+                //MediaPlayer.Volume = .5f;
+                //MediaPlayer.IsRepeating = true;
             }
         }
 
