@@ -4,6 +4,7 @@ using Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,9 @@ namespace GameAttempt
         ServiceManager serviceManager;
         PlayerComponent Player;
         public SpriteEffects effect;
-        //Camera camera;
+
+        //Audio
+        public Song BackgroundMusic;
 
         //Level States
         public enum LevelStates { LevelOne, LevelTwo, LevelThree, LevelFour };
@@ -71,6 +74,8 @@ namespace GameAttempt
             tsHeight = tSheet.Height / tsRows;                  // gets Height of tiles
 
             _current = LevelStates.LevelOne;
+
+            #region Tile Maps
 
             tileMap = new int[,]
                 {
@@ -155,6 +160,8 @@ namespace GameAttempt
                         {   8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  },
                         {   8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  },
                 };
+
+            #endregion
 
             game.Components.Add(this);
 
@@ -243,6 +250,9 @@ namespace GameAttempt
             switch (_current)
             {
                 case LevelStates.LevelOne:
+
+                    PlayAudio(BackgroundMusic);
+
                     if (InputManager.IsButtonPressed(Buttons.RightTrigger))
                     {
                         _current = LevelStates.LevelTwo;
@@ -254,6 +264,9 @@ namespace GameAttempt
                     break;
 
                 case LevelStates.LevelTwo:
+
+                    PlayAudio(BackgroundMusic);
+
                     if (InputManager.IsButtonPressed(Buttons.RightShoulder))
                     {
                         _current = LevelStates.LevelThree;
@@ -265,6 +278,9 @@ namespace GameAttempt
                     break;
 
                 case LevelStates.LevelThree:
+
+                    PlayAudio(BackgroundMusic);
+
                     if (InputManager.IsButtonPressed(Buttons.LeftTrigger))
                     {
                         _current = LevelStates.LevelFour;
@@ -276,6 +292,9 @@ namespace GameAttempt
                     break;
 
                 case LevelStates.LevelFour:
+
+                    PlayAudio(BackgroundMusic);
+
                     if (InputManager.IsButtonPressed(Buttons.LeftShoulder))
                     {
                         _current = LevelStates.LevelOne;
@@ -287,6 +306,16 @@ namespace GameAttempt
                     break;
             }
             base.Update(gameTime);
+        }
+
+        public void PlayAudio(Song backgroundMusic)
+        {
+            if (MediaPlayer.State != MediaState.Playing)
+            {
+                MediaPlayer.Play(backgroundMusic);
+                MediaPlayer.Volume = .5f;
+                MediaPlayer.IsRepeating = true;
+            }
         }
 
         public override void Draw(GameTime gameTime)
