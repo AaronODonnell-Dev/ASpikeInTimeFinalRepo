@@ -65,6 +65,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Audio\dinoParkLvl1.mp3" />
     <Content Include="Content\Audio\GreenGrave_mp3.mp3" />
     <Content Include="Content\Audio\jump_snd.wav" />
     <Content Include="Content\Audio\step_snd.wav" />
