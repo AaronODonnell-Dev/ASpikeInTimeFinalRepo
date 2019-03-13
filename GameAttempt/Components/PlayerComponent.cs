@@ -56,12 +56,10 @@ namespace GameAttempt.Components
 
         public override void Initialize()
         {
-            Position = new Vector2(200, 300);
-            speed = 9;
+            Position = new Vector2(100, 700);
+            speed = 7;
             ID = (int)index;
             _current = PlayerState.FALL;
-
-            //serviceManager = new ServiceManager(Game);
 
             base.Initialize();
         }
@@ -140,7 +138,7 @@ namespace GameAttempt.Components
                 camera.FollowCharacter(Sprite.position, GraphicsDevice.Viewport);
             }
 
-            Bounds = new Rectangle((int)Sprite.position.X, (int)Sprite.position.Y, Sprite.SpriteWidth, Sprite.SpriteHeight);
+            Bounds = new Rectangle((int)Sprite.position.X, (int)Sprite.position.Y + 15, Sprite.SpriteWidth, Sprite.SpriteHeight - 15);
             collisionRect = new Rectangle(Bounds.Location.X, Bounds.Location.Y, Bounds.Width, Bounds.Height + 5);
             GamePadState state = GamePad.GetState(index);
 
@@ -221,7 +219,7 @@ namespace GameAttempt.Components
                         {
                             hasCollided = true;
                             //bounce the player backwards from the thing it's colliding with
-                            Sprite.position.X = previousPosition.X + 25;
+                            Sprite.position.X = previousPosition.X + speed;
                             _current = PlayerState.STILL;
                             //Check to see if the Player has soemthing to stand on
                             if (hasCollidedBottom == false)
@@ -234,7 +232,7 @@ namespace GameAttempt.Components
                         else if (playerLeftSideDistance <= 0 && playerRightSideDistance <= 0)
                         {
                             hasCollided = true;
-                            Sprite.position.X = previousPosition.X - 25;
+                            Sprite.position.X = previousPosition.X - speed;
                             _current = PlayerState.STILL;
                             //Check to see if the Player has something to stand on
                             if (hasCollidedBottom == false)
@@ -290,14 +288,8 @@ namespace GameAttempt.Components
                         sndJumpIns.Stop();
                     }
 
-                    //Sprite.position.Y -= 1;
-                    //_current = PlayerState.FALL;
-
                     break;
             }
-
-            playerLeftSideDistance += 0;
-            playerRightSideDistance += 0;
 
             base.Update(gameTime);
         }
@@ -325,12 +317,12 @@ namespace GameAttempt.Components
                     spriteBatch.Draw(Sprite.SpriteImage, Sprite.BoundingRect, Sprite.FallSource, Color.White, 0f, Vector2.Zero, tiles.effect, 0f);
                     break;
             }
-            spriteBatch.DrawString(font, _current.ToString(), new Vector2(100, 200), Color.Black);
-            spriteBatch.DrawString(font, Bounds.ToString(), new Vector2(100, 220), Color.Black);
-            spriteBatch.DrawString(font, collisionRect.ToString(), new Vector2(400, 220), Color.Black);
-            spriteBatch.DrawString(font, distance.ToString(), new Vector2(100, 240), Color.Black);
-            spriteBatch.DrawString(font, playerRightSideDistance.ToString(), new Vector2(220, 240), Color.Black);
-            spriteBatch.DrawString(font, playerLeftSideDistance.ToString(), new Vector2(340, 240), Color.Black);
+            spriteBatch.DrawString(font, _current.ToString(), new Vector2(Sprite.position.X + 5, Sprite.position.Y - 10), Color.Black);
+            //spriteBatch.DrawString(font, Bounds.ToString(), new Vector2(100, 220), Color.Black);
+            //spriteBatch.DrawString(font, collisionRect.ToString(), new Vector2(400, 220), Color.Black);
+            //spriteBatch.DrawString(font, distance.ToString(), new Vector2(100, 240), Color.Black);
+            //spriteBatch.DrawString(font, playerRightSideDistance.ToString(), new Vector2(220, 240), Color.Black);
+            //spriteBatch.DrawString(font, playerLeftSideDistance.ToString(), new Vector2(340, 240), Color.Black);
             spriteBatch.End();
 
             base.Draw(gameTime);
