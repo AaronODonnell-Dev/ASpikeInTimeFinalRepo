@@ -42,7 +42,12 @@ namespace GameAttempt
             Lvl1Song = Content.Load<Song>("Audio/GreenGrave_mp3");
 
             tiles = Services.GetService<TRender>();
-            tiles.BackgroundMusic = Lvl1Song;
+
+            if(tiles._current == TRender.LevelStates.LevelOne)
+            {
+                tiles.BackgroundMusic = Lvl1Song;
+            }
+            else tiles.BackgroundMusic = Lvl1Song;
 
         }
         protected override void UnloadContent()
