@@ -21,7 +21,7 @@ namespace Managers
         {
             spriteBatch = new SpriteBatch(game.GraphicsDevice);
             tiles = new TRender(game);
-
+            game.Services.AddService<TRender>(tiles); // needs to be added before Player to use services
             switch (tiles._current)
             {
                 case TRender.LevelStates.LevelOne:
@@ -63,7 +63,7 @@ namespace Managers
             Game.Services.AddService<Camera>(camera);
             Game.Services.AddService<SpriteBatch>(spriteBatch);
             Game.Services.AddService<PlayerComponent>(player);
-            Game.Services.AddService<TRender>(tiles);
+            
         }
 
         public Camera GetCameraService()

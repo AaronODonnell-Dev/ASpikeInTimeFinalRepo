@@ -50,7 +50,7 @@ namespace GameAttempt.Components
         {
             GamePad.GetState(index);
             game.Components.Add(this);
-            tiles = new TRender(game);
+            tiles = Game.Services.GetService<TRender>();
             DrawOrder = 1;
         }
 
@@ -260,7 +260,10 @@ namespace GameAttempt.Components
                     {
                         tiles.effect = SpriteEffects.FlipHorizontally;
                     }
-                    else tiles.effect = SpriteEffects.None;
+                    if (state.ThumbSticks.Left.X < 0)
+                    {
+                        tiles.effect = SpriteEffects.None;
+                    }
                     if (InputManager.IsButtonPressed(Buttons.A) && !isJumping && !isFalling)
                     {
                         _current = PlayerState.JUMP;
@@ -305,7 +308,7 @@ namespace GameAttempt.Components
             Camera Cam = Game.Services.GetService<Camera>();
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Cam.CurrentCamTranslation);
-            //spriteBatch.Draw(TempText, Bounds, Color.Black);
+            
             switch (_current)
             {
                 case PlayerState.STILL:
@@ -315,7 +318,7 @@ namespace GameAttempt.Components
                     spriteBatch.Draw(Sprite.SpriteImage, Sprite.BoundingRect, Sprite.FallSource, Color.White, 0f, Vector2.Zero, tiles.effect, 0f);
                     break;
                 case PlayerState.WALK:
-
+                    
                     spriteBatch.Draw(Sprite.SpriteImage, Sprite.BoundingRect, Sprite.WalkSource, Color.White, 0f, Vector2.Zero, tiles.effect, 0f);
                     break;
                 case PlayerState.FALL:
