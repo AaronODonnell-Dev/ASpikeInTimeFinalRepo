@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Components
 {
-    public class AnimatedSprite : DrawableGameComponent
+    public class AnimatedSprite : GameComponent
     {
         //sprite texture and position
         Texture2D spriteImage;

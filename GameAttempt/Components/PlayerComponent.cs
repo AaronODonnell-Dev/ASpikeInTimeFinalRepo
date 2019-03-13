@@ -20,9 +20,8 @@ namespace GameAttempt.Components
 
         //variables for collision handling
         Rectangle collisionRect;
+        Rectangle sideOnCollisionRect;
         float distance;
-        float playerRightSideDistance;
-        float playerLeftSideDistance;
 
         //variables for player position and drawing
         public Vector2 previousPosition;
@@ -126,37 +125,40 @@ namespace GameAttempt.Components
 
         public override void Update(GameTime gameTime)
         {
-            bool hasCollided = false;
-
             Camera camera = Game.Services.GetService<Camera>();
-            if (_current == PlayerState.WALK || _current == PlayerState.STILL || _current == PlayerState.FALL)
-            {
-                camera.FollowCharacter(Sprite.position, GraphicsDevice.Viewport);
-            }
-            else if(!hasCollided)
-            {
-                camera.FollowCharacter(Sprite.position, GraphicsDevice.Viewport);
-            }
+            camera.FollowCharacter(Sprite.position, Game.GraphicsDevice.Viewport);
 
             Bounds = new Rectangle((int)Sprite.position.X, (int)Sprite.position.Y + 15, Sprite.SpriteWidth, Sprite.SpriteHeight - 15);
-            collisionRect = new Rectangle(Bounds.Location.X, Bounds.Location.Y, Bounds.Width, Bounds.Height + 5);
+            collisionRect = new Rectangle(Bounds.Location.X, Bounds.Location.Y, Bounds.Width, Bounds.Height + 7);
+            sideOnCollisionRect = new Rectangle(Bounds.Location.X, Bounds.Location.Y, Bounds.Width + 7, Bounds.Height);
             GamePadState state = GamePad.GetState(index);
-
-            previousPosition = Sprite.position;
 
             var newCollisions = tiles.collisons.Where(c => c.collider.Intersects(collisionRect)).ToList();
             //all tiles that are in collision with player bounds
-            var collisionSet = tiles.collisons.Where(c => c.collider.Intersects(Bounds)).ToList();
+            var collisionSet = tiles.collisons.Where(c => c.collider.Intersects(sideOnCollisionRect)).ToList();
 
             //Booleans to help the switch statements with decisions
             bool isJumping = false;
             bool isFalling = false;
             bool hasCollidedBottom = false;
+            bool LeftSide = false;
+            bool RightSide = false;
+
+            if(state.ThumbSticks.Left.X > 0)
+            {
+                LeftSide = true;
+            }
+            else if(state.ThumbSticks.Left.X < 0)
+            {
+                RightSide = true;
+            }
 
             //Switch statement to check Players State within the game
             switch (_current)
             {
                 case PlayerState.FALL:
+
+                    previousPosition = Sprite.position;
 
                     //Move player down by 5 every frame to simulate falling & Check thumbstick position
                     Sprite.position.Y += 5;
@@ -167,7 +169,7 @@ namespace GameAttempt.Components
                     {
                         distance = collisionRect.Bottom - newCollisions[i].collider.Top;
 
-                        if (distance > 0)
+                        if (distance > -1)
                         {
                             //move the player back horizontally to it's previous position
                             //set the boolean to true (to say the player has something to stand on)
@@ -189,7 +191,11 @@ namespace GameAttempt.Components
                     }
                     if (state.ThumbSticks.Left.X != 0)
                     {
-                        _current = PlayerState.WALK;
+                        if (!Collision(collisionSet))
+                        {
+                            speed = 7;
+                            _current = PlayerState.WALK;
+                        }
                     }
                     if (InputManager.IsButtonPressed(Buttons.A))
                     {
@@ -200,6 +206,7 @@ namespace GameAttempt.Components
                 case PlayerState.WALK:
 
                     Sprite.position.X += state.ThumbSticks.Left.X * speed;
+                    previousPosition = Sprite.position;
 
                     if (newCollisions.Count <= 0)
                     {
@@ -207,46 +214,26 @@ namespace GameAttempt.Components
                         _current = PlayerState.FALL;
                         break;
                     }
-
-                    for (int i = 0; i < collisionSet.Count - 1; i++)
+                    if(Collision(collisionSet))
                     {
-                        //Check the distance between the two rectangles ahead of time
-                        playerRightSideDistance = Bounds.Left - collisionSet[i].collider.Left;
-                        playerLeftSideDistance = Bounds.Left - collisionSet[i].collider.Right;
-
-                        //colliding from left
-                        if (playerRightSideDistance >= 1 && playerLeftSideDistance <= 191)
+                        if(LeftSide)
                         {
-                            hasCollided = true;
-                            //bounce the player backwards from the thing it's colliding with
-                            Sprite.position.X = previousPosition.X + speed;
+                            Sprite.position.X = previousPosition.X - 18;
                             _current = PlayerState.STILL;
-                            //Check to see if the Player has soemthing to stand on
-                            if (hasCollidedBottom == false)
-                            {
-                                //need to change this so the fall state occurs but it doesnt change the draw
-                                _current = PlayerState.FALL;
-                            }
-                            break;
                         }
-                        else if (playerLeftSideDistance <= 0 && playerRightSideDistance <= 0)
+                        else if(RightSide)
                         {
-                            hasCollided = true;
-                            Sprite.position.X = previousPosition.X - speed;
+                            Sprite.position.X = previousPosition.X + 18;
                             _current = PlayerState.STILL;
-                            //Check to see if the Player has something to stand on
-                            if (hasCollidedBottom == false)
-                            {
-                                _current = PlayerState.FALL;
-                            }
-
-                            break;
                         }
-                    }
-
+                        if(hasCollidedBottom)
+                        {
+                            _current = PlayerState.FALL;
+                        }
+                    }                   
                     if (sndWalkIns.State != SoundState.Playing)
                     {
-                        sndWalkIns.Play();
+                        //sndWalkIns.Play();
                         //sndWalkIns.IsLooped = true;
                     }
 
@@ -294,6 +281,18 @@ namespace GameAttempt.Components
             base.Update(gameTime);
         }
 
+        public bool Collision(List<Collider> collisionSet)
+        {
+            for (int i = 0; i < collisionSet.Count - 1; i++)
+            {
+                if (collisionSet[i].collider.Intersects(Bounds))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public override void Draw(GameTime gameTime)
         {
             SpriteBatch spriteBatch = Game.Services.GetService<SpriteBatch>();
@@ -318,6 +317,8 @@ namespace GameAttempt.Components
                     break;
             }
             spriteBatch.DrawString(font, _current.ToString(), new Vector2(Sprite.position.X + 5, Sprite.position.Y - 10), Color.Black);
+            spriteBatch.DrawString(font, previousPosition.X.ToString(), new Vector2(Sprite.position.X + 150, Sprite.position.Y - 10), Color.Black);
+            spriteBatch.DrawString(font, Sprite.position.X.ToString(), new Vector2(Sprite.position.X - 150, Sprite.position.Y - 10), Color.Red);
             //spriteBatch.DrawString(font, Bounds.ToString(), new Vector2(100, 220), Color.Black);
             //spriteBatch.DrawString(font, collisionRect.ToString(), new Vector2(400, 220), Color.Black);
             //spriteBatch.DrawString(font, distance.ToString(), new Vector2(100, 240), Color.Black);
