@@ -18,7 +18,7 @@ namespace TileEngine
 		TRef refs;
 		bool passable;
 		string tileName;
-
+       // All the inforation about a single tile and its position inthe til references
 		public int ID
 		{
 			get { return id; }

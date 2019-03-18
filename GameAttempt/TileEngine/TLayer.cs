@@ -52,15 +52,17 @@ namespace TileEngine
 			set { passable = value; }
 		}
 		#endregion
-
+        // Returns the tile position that are in the passable list
 		public Tile GetPassableTileAt(int X, int Y)
 		{
 			return passable.Where(t => t.X == X && t.Y == Y).Single();
 		}
+        // Returns the tile positions that are in the impassable list
 		public Tile GetImpassableTileAt(int X, int Y)
 		{
 			return impassable.Where(t => t.X == X && t.Y == Y).Single();
 		}
+        // Checks if the tile has an adjacent tile
 		public List<Tile> adjacentTo(Tile t)
 		{
 			List<Tile> adjacentTiles = new List<Tile>();
@@ -76,6 +78,7 @@ namespace TileEngine
 			return adjacentTiles;
 
 		}
+        // checks to see if there is an adjacent impassable tile
 		public List<Tile> adjacentImpassible(Tile t)
 		{
 			List<Tile> adjacentTilesImpassible = new List<Tile>();
@@ -103,11 +106,14 @@ namespace TileEngine
 			return adjacentTilesImpassible;
 
 		}
+
+        // returns all tiles that are passably
 		internal List<Tile> getSurroundingPassableTiles(Tile tile)
 		{
 			return fullAdjacentPassable(tile);
-
 		}
+        
+        // adds all diagonal tiles to the list
 		public List<Tile> fullAdjacentPassable(Tile t)
 		{
 			List<Tile> adj = new List<Tile>();
@@ -117,6 +123,8 @@ namespace TileEngine
 			adj.AddRange(diag);
 			return adj;
 		}
+
+        // finds all valid diagonal passable tiles
 		private List<Tile> getDiagPassable(Tile t)
 		{
 			List<Tile> diag = new List<Tile>();
@@ -143,6 +151,8 @@ namespace TileEngine
 			return diag;
 
 		}
+
+        // gets all adjacent tiles that passable added to the list
 		public List<Tile> adjacentPassable(Tile t)
 		{
 			List<Tile> adjacentTilesPassible = new List<Tile>();
@@ -170,6 +180,8 @@ namespace TileEngine
 			return adjacentTilesPassible;
 
 		}
+        
+        // gets the adjacent tiles from the tile map
 		public Tile GetadjacentTile(string direction, Tile t)
 		{
 			switch (direction)
@@ -213,8 +225,11 @@ namespace TileEngine
 			}
 			return t;
 		}
+
+        // checks if there is no tiles in this position
 		public bool valid(string direction, Tile t)
 		{
+            // if there is no tiles in the position
 			if (t == null) return false;
 			switch (direction)
 			{
@@ -259,6 +274,8 @@ namespace TileEngine
 			}
 			return false;
 		}
+
+        // adds tiles from the impassable tile array to impassale tiles list
 		public void makeImpassable(string[] TileNames)
 		{
 			foreach (Tile t in this.Tiles)

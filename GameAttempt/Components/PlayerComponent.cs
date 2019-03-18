@@ -33,6 +33,9 @@ namespace GameAttempt.Components
         SoundEffect sndJump, sndWalk, sndWalk2;
         SoundEffectInstance sndJumpIns, sndWalkIns, sndWalkIns2;
 
+        bool tooFarLeft = false;
+        bool tooFarRight = false;
+
         //other variables
         SpriteFont font;
         int speed;
@@ -56,7 +59,7 @@ namespace GameAttempt.Components
 
         public override void Initialize()
         {
-            Position = new Vector2(200, 300);
+            Position = new Vector2(128, 500 );
             speed = 9;
             ID = (int)index;
             _current = PlayerState.FALL;
@@ -133,11 +136,11 @@ namespace GameAttempt.Components
             Camera camera = Game.Services.GetService<Camera>();
             if (_current == PlayerState.WALK || _current == PlayerState.STILL || _current == PlayerState.FALL)
             {
-                camera.FollowCharacter(Sprite.position, GraphicsDevice.Viewport);
+                camera.FollowCharacter(Bounds, GraphicsDevice.Viewport);
             }
             else if(!hasCollided)
             {
-                camera.FollowCharacter(Sprite.position, GraphicsDevice.Viewport);
+                camera.FollowCharacter(Bounds, GraphicsDevice.Viewport);
             }
 
             Bounds = new Rectangle((int)Sprite.position.X, (int)Sprite.position.Y, Sprite.SpriteWidth, Sprite.SpriteHeight);
@@ -155,14 +158,32 @@ namespace GameAttempt.Components
             bool isFalling = false;
             bool hasCollidedBottom = false;
 
+
+            // If the Player is too far off the screen to the left and is still trying to go that way
+            if (Sprite.position.X < 0 - Bounds.Width / 2 && state.ThumbSticks.Left.X < 0)
+                // He's Gone too far left
+                tooFarLeft = true;
+            // if the player has gone to far to the Right of the Screen and is still trying to go that way
+            if (Sprite.position.X >= (camera.WorldBound.X / 2 - Bounds.Width) && state.ThumbSticks.Left.X > 0)
+                // hes going too far right
+                tooFarRight = true;
+
+            // if Player falls off screen put him back to his initial start position
+            if (Sprite.position.Y >= camera.WorldBound.Y /2)
+            {
+                Sprite.position = Position;
+            }
+
             //Switch statement to check Players State within the game
             switch (_current)
             {
                 case PlayerState.FALL:
 
                     //Move player down by 5 every frame to simulate falling & Check thumbstick position
-                    Sprite.position.Y += 5;
-                    Sprite.position.X += state.ThumbSticks.Left.X * speed;
+                    Sprite.position.Y += 5;            
+                  
+                    Sprite.position.X += state.ThumbSticks.Left.X * speed;                       
+                    
 
                     //Check for collisions between the top and bottom of the rectangles
                     for (int i = 0; i < newCollisions.Count - 1; i++)
@@ -199,9 +220,12 @@ namespace GameAttempt.Components
                     }
                     break;
 
-                case PlayerState.WALK:
+                case PlayerState.WALK:                                         
+                   
+                    // If hes gone too far in either direction Stop him from moving
+                    if(!tooFarRight && !tooFarLeft)
+                        Sprite.position.X += state.ThumbSticks.Left.X * speed;
 
-                    Sprite.position.X += state.ThumbSticks.Left.X * speed;
 
                     if (newCollisions.Count <= 0)
                     {
@@ -209,13 +233,13 @@ namespace GameAttempt.Components
                         _current = PlayerState.FALL;
                         break;
                     }
-
+                    
                     for (int i = 0; i < collisionSet.Count - 1; i++)
                     {
                         //Check the distance between the two rectangles ahead of time
                         playerRightSideDistance = Bounds.Left - collisionSet[i].collider.Left;
                         playerLeftSideDistance = Bounds.Left - collisionSet[i].collider.Right;
-
+                    
                         //colliding from left
                         if (playerRightSideDistance >= 1 && playerLeftSideDistance <= 191)
                         {
@@ -241,33 +265,38 @@ namespace GameAttempt.Components
                             {
                                 _current = PlayerState.FALL;
                             }
-
+                    
                             break;
                         }
                     }
-
+                    
                     if (sndWalkIns.State != SoundState.Playing)
                     {
                         sndWalkIns.Play();
                         //sndWalkIns.IsLooped = true;
                     }
-
+                    
                     if (state.ThumbSticks.Left.X == 0)
                     {
                         _current = PlayerState.STILL;
                     }
                     if (state.ThumbSticks.Left.X > 0)
                     {
+                        tooFarLeft = false; // Allow him to move inthe left direction again
                         tiles.effect = SpriteEffects.FlipHorizontally;
+                        
                     }
                     if (state.ThumbSticks.Left.X < 0)
                     {
-                        tiles.effect = SpriteEffects.None;
+                        tooFarRight = false;    // allow him to move in the right direction again
+                        tiles.effect = SpriteEffects.None;                          
                     }
                     if (InputManager.IsButtonPressed(Buttons.A) && !isJumping && !isFalling)
                     {
                         _current = PlayerState.JUMP;
-                    }
+                    }                
+                    
+                    
                     break;
 
                 case PlayerState.JUMP:
@@ -275,6 +304,7 @@ namespace GameAttempt.Components
                     if (!isJumping)
                     {
                         Sprite.position.Y -= 120;
+                        if(!tooFarRight && !tooFarLeft)
                         Sprite.position.X += state.ThumbSticks.Left.X * speed;
                         isJumping = true;
                         _current = PlayerState.FALL;
