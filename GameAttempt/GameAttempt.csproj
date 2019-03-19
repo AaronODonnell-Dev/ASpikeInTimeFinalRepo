@@ -73,6 +73,7 @@
     <Content Include="Content\Audio\IceAgeLvl2Final.mp3" />
     <Content Include="Content\Audio\jump_snd.wav" />
     <Content Include="Content\Audio\MelvinsMothershipLvl4Final.mp3" />
+    <Content Include="Content\Audio\portalGem.wav" />
     <Content Include="Content\Audio\step_snd.wav" />
     <Content Include="Content\Sprites\Collison.png" />
     <Content Include="Content\Sprites\DinoParkBackgroundFinal.png" />
@@ -85,6 +86,7 @@
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
     <None Include="app.manifest" />
+    <None Include="Content\Font.spritefont" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

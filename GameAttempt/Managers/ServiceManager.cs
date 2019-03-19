@@ -16,12 +16,14 @@ namespace Managers
         PlayerComponent player;
         TRender tiles;
         SpriteBatch spriteBatch;
+        SpriteFont font;
 
         public ServiceManager(Game game) : base(game)
         {
             spriteBatch = new SpriteBatch(game.GraphicsDevice);
             tiles = new TRender(game);
             game.Services.AddService<TRender>(tiles);
+            font = game.Content.Load<SpriteFont>("Font");
 
             //Switch for Level States
             switch (tiles._current)
@@ -64,7 +66,7 @@ namespace Managers
             Game.Services.AddService<Camera>(camera);
             Game.Services.AddService<SpriteBatch>(spriteBatch);
             Game.Services.AddService<PlayerComponent>(player);
-            
+            Game.Services.AddService<SpriteFont>(font);
         }
     }
 }

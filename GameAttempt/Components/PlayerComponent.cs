@@ -51,11 +51,13 @@ namespace GameAttempt.Components
             GamePad.GetState(index);
             game.Components.Add(this);
             tiles = Game.Services.GetService<TRender>();
+            //make sure the player draws over the background and tile map
             DrawOrder = 1;
         }
 
         public override void Initialize()
         {
+            //sets players original variables
             Position = new Vector2(100, 700);
             speed = 7;
             ID = (int)index;
@@ -126,13 +128,26 @@ namespace GameAttempt.Components
 
         public override void Update(GameTime gameTime)
         {
+            //Call the camera, have it clmap to the player
             Camera camera = Game.Services.GetService<Camera>();
             camera.FollowCharacter(Bounds, Game.GraphicsDevice.Viewport);
 
+            //set up 3 rectangles for basic, side on and bottom collision with slightly altered variables for accuracy 
             Bounds = new Rectangle((int)Sprite.position.X, (int)Sprite.position.Y + 15, Sprite.SpriteWidth, Sprite.SpriteHeight - 15);
             collisionRect = new Rectangle(Bounds.Location.X, Bounds.Location.Y, Bounds.Width, Bounds.Height + 5);
             sideOnCollisionRect = new Rectangle(Bounds.Location.X, Bounds.Location.Y, Bounds.Width + 7, Bounds.Height);
+
             GamePadState state = GamePad.GetState(index);
+
+            //Avoid the player being moved off the map
+            if (Sprite.position.Y > 1300)
+            {
+                ResetPlayer();
+            }
+            else if (Sprite.position.X < -50 || Sprite.position.X >= 2440)
+            {
+                ResetPlayer();
+            }
 
             var newCollisions = tiles.collisons.Where(c => c.collider.Intersects(collisionRect)).ToList();
             //all tiles that are in collision with player bounds
@@ -289,16 +304,19 @@ namespace GameAttempt.Components
             switch(tiles._current)
             {
                 case TRender.LevelStates.LevelOne:
-                    Sprite.position = new Vector2(100, 800);
+                    Sprite.position = new Vector2(100, 860);
                     break;
 
                 case TRender.LevelStates.LevelTwo:
+                    Sprite.position = new Vector2(120, 300);
                     break;
 
                 case TRender.LevelStates.LevelThree:
+                    Sprite.position = new Vector2(2200, 50);
                     break;
 
                 case TRender.LevelStates.LevelFour:
+                    Sprite.position = new Vector2(50, 1000);
                     break;
             }
         }
@@ -340,9 +358,7 @@ namespace GameAttempt.Components
             }
             //spriteBatch.DrawString(font, _current.ToString(), new Vector2(Sprite.position.X + 5, Sprite.position.Y - 10), Color.Black);
             //spriteBatch.DrawString(font, previousPosition.X.ToString(), new Vector2(Sprite.position.X + 150, Sprite.position.Y - 10), Color.Black);
-            //spriteBatch.DrawString(font, Sprite.position.X.ToString(), new Vector2(Sprite.position.X - 150, Sprite.position.Y - 10), Color.Red);
-            spriteBatch.DrawString(font, "You need to have 5 Portal gems to open this door!", new Vector2(20, 60), Color.Black);
-            spriteBatch.DrawString(font, "Portal Gems : 0" + Collectables.ToString(), new Vector2(20, 40), Color.Black);
+            //spriteBatch.DrawString(font, Sprite.position.ToString(), new Vector2(Sprite.position.X - 50, Sprite.position.Y - 10), Color.Red);
             spriteBatch.End();
 
             base.Draw(gameTime);

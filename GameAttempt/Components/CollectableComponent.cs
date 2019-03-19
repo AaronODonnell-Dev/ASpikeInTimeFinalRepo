@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Components;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using TileEngine;
 
@@ -26,11 +27,7 @@ namespace GameAttempt.Components
         Rectangle imageRect;
         Vector2 Position;
         Rectangle boundingRect;
-
-        public override void Initialize()
-        {
-            base.Initialize();
-        }
+        SoundEffect GemSound;
 
         public CollectableComponent(Game game, Texture2D tsheet, TRef Frame,TManager manager, Vector2 pos) : base(game)
         {
@@ -38,9 +35,16 @@ namespace GameAttempt.Components
             Position = pos;
             myframe = Frame;
             myManager = manager;
+            //get the reference on the tile sheet for the collectable
             imageRect = new Rectangle(myframe.TLocX, myframe.TLocY, 128, 128);
             boundingRect = new Rectangle(Position.ToPoint(), imageRect.Size);
             game.Components.Add(this);
+        }
+
+        public override void Initialize()
+        {
+            GemSound = Game.Content.Load<SoundEffect>("Audio/portalGem");
+            base.Initialize();
         }
 
         public override void Update(GameTime gametime)
@@ -61,6 +65,9 @@ namespace GameAttempt.Components
             {
                 if (boundingRect.Intersects(player.Bounds))
                 {
+                    //Play Sound Effect when colliding with Gem
+                    GemSound.Play(0.1f, -0.5f, 0.0f);
+                    //Make invisible
                     Enabled = false;
                     Visible = false;
                     collided = true;
@@ -68,6 +75,7 @@ namespace GameAttempt.Components
             }
             if(collided == true)
             {
+                //update the players collectables to keep count
                 player.Collectables += 1;
                 collided = false;
             }
@@ -75,10 +83,12 @@ namespace GameAttempt.Components
 
         public override void Draw(GameTime gameTime)
         {
+            //Call back all services needed
             SpriteBatch spriteBatch = Game.Services.GetService<SpriteBatch>();
             TRender trender = Game.Services.GetService<TRender>();
             Camera Cam = Game.Services.GetService<Camera>();
 
+            //Draw to camera
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Cam.CurrentCamTranslation);
             foreach (CollectableComponent collectable in trender.Collectables)
             {

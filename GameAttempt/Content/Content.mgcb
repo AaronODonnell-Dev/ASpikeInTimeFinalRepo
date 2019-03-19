@@ -43,6 +43,12 @@
 /processorParam:Quality=Best
 /build:Audio/MelvinsMothershipLvl4Final.mp3
 
+#begin Audio/portalGem.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/portalGem.wav
+
 #begin Audio/step_snd.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor

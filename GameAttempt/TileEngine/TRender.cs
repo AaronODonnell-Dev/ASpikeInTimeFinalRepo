@@ -102,7 +102,7 @@ namespace GameAttempt
                     {   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, },
                     {   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, },
                     {   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, },
-                    {   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  2,  2,  2,  2,  2,  2,  2, },
+                    {   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  1,  1,  1,  1,  1,  1, },
                     {   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  14, 2,  2,  2,  2,  2,  2,  2,  2, },
                     {   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  16, 1,  2,  2,  2,  2,  2,  2,  2,  2,  2, },
                     {   0, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, },
@@ -156,14 +156,14 @@ namespace GameAttempt
                     {	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	76,	0,	0,	0,	0,	0,  0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	},
                     {	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,  35, 5,  36,  0,	0,	0,	0,  0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	},
                     {	0,	0,	0,	0,	0,	35,	5,	36,	0,	0,	0,	35,	5,	36,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,  0,	0,	0,	0,	0,	0,	0,	73,	0,	0,	0,	0,	0,	0,	0,	},
-                    {	0,	73,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,  0,  0,	0,	0,	0,	0,	0,	0,	76,  73,  0,  0,  0,  0,  0,  0,	},
+                    {	0,	73,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,  0,  0,	0,	0,	0,	0,	0,	0,	76,  73,  0,  0,  0,  0,  0,  0, },
                     {	0,	76,	73,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,  0,  0,  0,  0,	0,	0,  0,  0,	0,	0,	0,	0,	0,	35,	5,  5,  5,  5,  5,  5,  5,  5,  },
                     {	0,	35,	5,	36,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	39,	5,	5,  5,  5,  0,	0,	0,	0,	0,	37,	7,  7,  7,  7,  7,  7,  7,  7,  7,  },
                     {	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	6,	6,	6,  6,  0,	0,	0,	39,	5,	7,	6,	6,  6,  6,  6,  6,  6,  6,  6,  },
                     {	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	35,	5,	36,	0,	0,	0,	0,	0,	6,	6,	6,  6,  0,	0,	0,	0,	7,	6,	6,	6,  6,  6,  6,  6,  6,  6,  6,  },
                     {	0,	0,	0,	0,	0,	35,	5,	36,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	6,	6,	6,  6,  0,	0,	0,	0,	6,	6,	6,	6,  6,  6,  6,  6,  6,  6,  6,  },
                     {	73,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	6,	6,	6,  6,  0,	0,	0,	0,	6,	6,	6,	6,  6,  6,  6,  6,  6,  6,  6,  },
-                    {	76,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	78,	6,  6,  6,  0,	0,	0,	0,	6,	6,	6,  6,  6,  6,  6,  6,  6,  6, 	6,	},
+                    {	76,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	6,	6,  6,  6,  0,	0,	0,	0,	6,	6,	6,  6,  6,  6,  6,  6,  6,  6, 	6,	},
                     {	5,	5,	5,	0,	0,	0,	0,	73,	0,	0,	0,	0,	73,	0,	0,	0,	0,	0,	0,	39,	5,	5,	5,	5,  0,	0,	0,	0,	7,	7,	7,	7,	7,	7,	7,	7,	7,	7,	7,	},
                     {	6,	6,	6,	5,	5,	0,	0,	76,	0,	0,	0,	0,	76,	0,	0,	0,	0,	0,	0,	0,  6,	6,	6,	6,  0,	0,	0,	0,	6,	6,	6,	6,	6,	6,	6,	6,	6,	6,	6,	},
                     {	6,	6,	6,	6,	6,	5,	5,	5,	5,	5,	5,	5,	5,	0,	0,	0,	0,	0,	0,	0,	6,	6,	6,	6,  0,	0,	0,	0,	6,	6,	6,	6,	6,	6,	6,	6,	6,	6,	6,	},
@@ -200,6 +200,7 @@ namespace GameAttempt
 
             tileManager = new TManager();
 
+            //TRefs needed to be passed into Component classes to be drawn, had to be multiplied by 128, the size of the tiles
             Collectable = new TRef(128 * 8, 128, 64);
             ClosedPortal = new TRef(128 * 8, 128 * 2, 67);
             OpenPortal = new TRef(128 * 9, 128 * 2, 68);
@@ -212,12 +213,12 @@ namespace GameAttempt
 
         public override void Initialize()
         {
-
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
+            //Loading all backgrounds and Audio
             LevelOneBkGrnd = Game.Content.Load<Texture2D>("Sprites/DinoParkBackgroundFinal");
             LevelTwoBkGrnd = Game.Content.Load<Texture2D>("Sprites/IceAgeLevel2Final");
             LevelThreeBkGrnd = Game.Content.Load<Texture2D>("Sprites/FalloutLevel3Final");
@@ -501,6 +502,7 @@ namespace GameAttempt
             //Sets Collison tiles
             SetupCollison();
 
+            //Set up Collectables, Enemies and Portals
             SetupComponents();
 
             base.LoadContent();
@@ -520,6 +522,7 @@ namespace GameAttempt
 
         public void SetupComponents()
         {
+            //switch to add components based on what level it is
             switch (_current)
             {
                 case LevelStates.LevelOne:
@@ -533,36 +536,36 @@ namespace GameAttempt
 
                     Portal = new List<PortalComponent> { new PortalComponent(Game, tSheet, ClosedPortal, tileManager, new Vector2(50, 320)) };
 
-                    //enemies = new List<EnemyComponent>
-                    //{
-                    //    new EnemyComponent (Game, tSheet, SlugEnemy, tileManager, new Vector2(900, 960)),
-                    //    new EnemyComponent (Game, tSheet, Alien, tileManager, new Vector2(15, 320)),
-                    //    new EnemyComponent (Game, tSheet, BombBoy, tileManager, new Vector2(820, 960))
-                    //};
+                    enemies = new List<EnemyComponent>
+                    {
+                        new EnemyComponent (Game, tSheet, SlugEnemy, tileManager, new Vector2(900, 960)),
+                        new EnemyComponent (Game, tSheet, Alien, tileManager, new Vector2(15, 320)),
+                        new EnemyComponent (Game, tSheet, BombBoy, tileManager, new Vector2(820, 960))
+                    };
                     break;
 
                 case LevelStates.LevelTwo:
                     Collectables = new List<CollectableComponent> {
                         new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(400, 800)),
-                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(950, 780)),
-                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(1250, 750)),
-                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(1400, 120)),
-                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(1200, 300))
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(150, 750)),
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(2250, 30)),
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(1400, 200)),
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(1200, 420))
                         };
 
-                    Portal = new List<PortalComponent> { new PortalComponent(Game, tSheet, ClosedPortal, tileManager, new Vector2(25, 370)) };
+                    Portal = new List<PortalComponent> { new PortalComponent(Game, tSheet, ClosedPortal, tileManager, new Vector2(2300, 1025)) };
                     break;
 
                 case LevelStates.LevelThree:
                     Collectables = new List<CollectableComponent> {
-                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(400, 200)),
-                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(950, 120)),
-                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(1250, 150)),
-                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(1400, 120)),
-                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(350, 1200))
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(2050, 800)),
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(950, 180)),
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(850, 460)),
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(1400, 90)),
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(350, 600))
                         };
 
-                    Portal = new List<PortalComponent> { new PortalComponent(Game, tSheet, ClosedPortal, tileManager, new Vector2(50, 320)) };
+                    Portal = new List<PortalComponent> { new PortalComponent(Game, tSheet, ClosedPortal, tileManager, new Vector2(2300, 830)) };
                     break;
 
                 case LevelStates.LevelFour:
@@ -570,11 +573,11 @@ namespace GameAttempt
                         new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(400, 800)),
                         new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(950, 780)),
                         new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(1250, 750)),
-                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(1400, 120)),
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(1400, 260)),
                         new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(150, 300))
                         };
 
-                    Portal = new List<PortalComponent> { new PortalComponent(Game, tSheet, ClosedPortal, tileManager, new Vector2(50, 320)) };
+                    Portal = new List<PortalComponent> { new PortalComponent(Game, tSheet, ClosedPortal, tileManager, new Vector2(2350, 1020)) };
                     break;
             }
         }
@@ -588,16 +591,12 @@ namespace GameAttempt
             {
                 // set up for level one
                 case LevelStates.LevelOne:
-
-                    player.Position = new Vector2(100, 700);
                     PlayAudio(Lvl1Song);
                     hasLevelChanged = false;
 
                     break;
                 // set up for level 2
                 case LevelStates.LevelTwo:
-
-                    player.Position = new Vector2(100, 700);
                     PlayAudio(Lvl2Song);
 
                     hasLevelChanged = false;
@@ -606,7 +605,6 @@ namespace GameAttempt
                 // set up for level 3
                 case LevelStates.LevelThree:
 
-
                     PlayAudio(Lvl3Song);
 
                     hasLevelChanged = false;
@@ -614,7 +612,6 @@ namespace GameAttempt
                     break;
                 // set up for level 4
                 case LevelStates.LevelFour:
-
                     PlayAudio(Lvl4Song);
 
                     hasLevelChanged = false;

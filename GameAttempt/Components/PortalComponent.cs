@@ -20,6 +20,7 @@ namespace GameAttempt.Components
         }
 
         bool PortalOpen = false;
+        int GemsLeft;
         TRef myframe;
         TManager myManager;
         Rectangle imageRect;
@@ -44,6 +45,11 @@ namespace GameAttempt.Components
 
         public override void Update(GameTime gametime)
         {
+            //call player service and keep track of how many more gems are needed to pass throught to the next level
+            PlayerComponent player = Game.Services.GetService<PlayerComponent>();
+            GemsLeft = 5 - player.Collectables;
+
+
             //potential for animation
 
             Collision();
@@ -59,22 +65,26 @@ namespace GameAttempt.Components
             switch(trender._current)
             {
                 case TRender.LevelStates.LevelOne:
-
+                    //check if the player has all gems to pass through the portal
                     if (player.Collectables == 5)
                     {
+                        //check if the player intersects with the open portal
                         if (boundingRect.Intersects(player.Bounds) && PortalOpen)
                         {
                             Visible = false;
                             Enabled = false;
                             player.Collectables = 0;
 
+                            //change the level state 
                             trender._current = TRender.LevelStates.LevelTwo;
                             trender.tileManager.ActiveLayer = trender.tileManager.GetLayer("LevelTwo");
                             trender.hasLevelChanged = true;
 
+                            //clear all the variable lists
                             trender.Collectables.Clear();
                             trender.Portal.Clear();
-                            //trender.enemies.Clear();
+                            player.ResetPlayer();
+                            trender.enemies.Clear();
 
                             // Creates a set of impassable tiles
                             trender.collisons.Clear(); // Important for removing colliders from screen
@@ -100,11 +110,11 @@ namespace GameAttempt.Components
                             trender.tileManager.ActiveLayer = trender.tileManager.GetLayer("LevelThree");
                             trender.hasLevelChanged = true;
 
-                            // Creates a set of impassable tiles
                             trender.collisons.Clear();
                             trender.Collectables.Clear();
                             trender.Portal.Clear();
-                            //trender.enemies.Clear();
+                            player.ResetPlayer();
+
                             trender.tileManager.ActiveLayer.makeImpassable(trender.impassableTiles);
                             trender.SetupCollison();
                             trender.SetupComponents();
@@ -127,10 +137,11 @@ namespace GameAttempt.Components
                             trender.tileManager.ActiveLayer = trender.tileManager.GetLayer("LevelFour");
                             trender.hasLevelChanged = true;
 
-                            // Creates a set of impassable tiles
                             trender.collisons.Clear();
                             trender.Collectables.Clear();
-                            //trender.enemies.Clear();
+
+                            player.ResetPlayer();
+
                             trender.Portal.Clear();
                             trender.tileManager.ActiveLayer.makeImpassable(trender.impassableTiles);
                             trender.SetupCollison();
@@ -154,10 +165,10 @@ namespace GameAttempt.Components
                             trender.tileManager.ActiveLayer = trender.tileManager.GetLayer("LevelOne");
                             trender.hasLevelChanged = true;
 
-                            // Creates a set of impassable tiles
                             trender.collisons.Clear();
                             trender.Collectables.Clear();
-                            //trender.enemies.Clear();
+                            player.ResetPlayer();
+
                             trender.Portal.Clear();
                             trender.tileManager.ActiveLayer.makeImpassable(trender.impassableTiles);
                             trender.SetupCollison();
@@ -171,11 +182,14 @@ namespace GameAttempt.Components
 
         public override void Draw(GameTime gameTime)
         {
+            //call back all the services
             SpriteBatch spriteBatch = Game.Services.GetService<SpriteBatch>();
             TRender trender = Game.Services.GetService<TRender>();
             Camera Cam = Game.Services.GetService<Camera>();
             PlayerComponent player = Game.Services.GetService<PlayerComponent>();
+            SpriteFont font = Game.Services.GetService<SpriteFont>();
 
+            //draw onto the camera
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Cam.CurrentCamTranslation);
             foreach (PortalComponent portal in trender.Portal)
             {
@@ -193,6 +207,9 @@ namespace GameAttempt.Components
                     }
                 }
             }
+            //inform player of how many gems are left
+            spriteBatch.DrawString(font, "You need " + GemsLeft.ToString() + " more Portal Gems to open this door!", new Vector2(Position.X, Position.Y - 40), Color.Black);
+            spriteBatch.DrawString(font, "Portal Gems : 0" + player.Collectables.ToString(), new Vector2(Position.X, Position.Y - 60), Color.Black);
             spriteBatch.End();
 
             base.Draw(gameTime);
