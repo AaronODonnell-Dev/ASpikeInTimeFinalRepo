@@ -20,6 +20,7 @@ namespace GameAttempt.Components
             set { texture = value; }
         }
 
+        bool collided = false;
         TRef myframe;
         TManager myManager;
         Rectangle imageRect;
@@ -60,10 +61,15 @@ namespace GameAttempt.Components
             {
                 if (boundingRect.Intersects(player.Bounds))
                 {
-                    player.Collectables++;
                     Enabled = false;
                     Visible = false;
+                    collided = true;
                 }
+            }
+            if(collided == true)
+            {
+                player.Collectables += 1;
+                collided = false;
             }
         }
 
