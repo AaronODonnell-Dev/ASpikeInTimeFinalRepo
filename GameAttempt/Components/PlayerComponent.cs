@@ -339,22 +339,24 @@ namespace GameAttempt.Components
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Cam.CurrentCamTranslation);
             
+            
             switch (_current)
             {
                 case PlayerState.STILL:
                     spriteBatch.Draw(Sprite.SpriteImage, Sprite.BoundingRect, Sprite.StillSource, Color.White, 0f, Vector2.Zero, tiles.effect, 0f);
                     break;
+
                 case PlayerState.JUMP:
                     spriteBatch.Draw(Sprite.SpriteImage, Sprite.BoundingRect, Sprite.FallSource, Color.White, 0f, Vector2.Zero, tiles.effect, 0f);
                     break;
-                case PlayerState.WALK:
-                    
+                case PlayerState.WALK:                    
                     spriteBatch.Draw(Sprite.SpriteImage, Sprite.BoundingRect, Sprite.WalkSource, Color.White, 0f, Vector2.Zero, tiles.effect, 0f);
                     break;
                 case PlayerState.FALL:
                     spriteBatch.Draw(Sprite.SpriteImage, Sprite.BoundingRect, Sprite.FallSource, Color.White, 0f, Vector2.Zero, tiles.effect, 0f);
                     break;
             }
+         
             spriteBatch.DrawString(font, _current.ToString(), new Vector2(100, 200), Color.Black);
             spriteBatch.DrawString(font, Bounds.ToString(), new Vector2(100, 220), Color.Black);
             spriteBatch.DrawString(font, collisionRect.ToString(), new Vector2(400, 220), Color.Black);

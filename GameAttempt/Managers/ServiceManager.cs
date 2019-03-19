@@ -16,12 +16,13 @@ namespace Managers
         PlayerComponent player;
         TRender tiles;
         SpriteBatch spriteBatch;
-
+        CollectableComponent cComponet;
         public ServiceManager(Game game) : base(game)
         {
             spriteBatch = new SpriteBatch(game.GraphicsDevice);
             tiles = new TRender(game);
             game.Services.AddService<TRender>(tiles); // needs to be added before Player to use services
+            // Incase we wanted to have multiple different cameras 
             switch (tiles._current)
             {
                 case TRender.LevelStates.LevelOne:
@@ -54,7 +55,7 @@ namespace Managers
             }
 
             player = new PlayerComponent(game);
-
+           cComponet = new CollectableComponent(game, new TileEngine.TRef(8, 1, 81), tiles.tileManager, Vector2.Zero);
             AddToServices();
         }
 

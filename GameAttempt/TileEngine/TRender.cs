@@ -18,8 +18,8 @@ namespace GameAttempt
     public class TRender : DrawableGameComponent
     {
         #region Properties
-        TManager tileManager;
-        Texture2D tSheet;
+        public TManager tileManager;
+        public Texture2D tSheet;
         Texture2D LevelOneBkGrnd;
         Texture2D LevelTwoBkGrnd;
         Texture2D LevelThreeBkGrnd;
@@ -90,7 +90,7 @@ namespace GameAttempt
                     {   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  0,  2,  0,  0,  0,  2,  2,  1,  1,  2,  2,  2,  2,  2,  2,  2, },
                     {   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  0,  2,  2,  0,  0,  2,  2,  2,  2,  1,  1,  2,  2,  2,  2,  2, },
                     {   74, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  2,  0,  2,  2,  0,  0,  0,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, },
-                    {   77, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  2,  0,  2,  2,  0,  0,  0,  2,  2,  2,  2,  2,  2,  2,  1,  1,  1, },
+                    {   77, 0,  0,  0,  0,  0,  0,  90,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  2,  0,  2,  2,  0,  0,  0,  2,  2,  2,  2,  2,  2,  2,  1,  1,  1, },
                     {   80, 80, 0,  0,  0,  0,  0,  74, 74, 0,  0,  0,  0,  0,  0,  0,  74, 0,  0,  0,  0,  2,  2,  1,  1,  1,  1,  1,  1,  12,  2,  2,  2,  2,  2,  1,  2,  2,  2, },
                     {   2, 70,  0,  0,  0,  0,  0,  77, 77, 0,  0,  0,  0,  0,  0,  0,  77, 0,  0,  0,  0,  2,  1,  2,  2,  2,  2,  2,  2,  0,  2,  2,  2,  2,  1,  2,  2,  2,  2, },
                     {   1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  2,  2,  2,  2,  2,  2,  2,  1,  1,  1,  1,  1,  2,  2,  2,  2,  2, },
@@ -377,7 +377,8 @@ namespace GameAttempt
                                 "TreeBottomlvl2" ,
                                 "TreeBottomlvl3" ,
                                 "ImpassableGround",
-                                "WalkThroughGround"
+                                "WalkThroughGround",
+                                "Collectable"
                                 }; 
 
             impassableTiles = new string[] { "GroundLv1Top",
@@ -594,6 +595,7 @@ namespace GameAttempt
 
             switch (_current)
             {
+                // Draws the Level to the screen 
                 case LevelStates.LevelOne:
                     spriteBatch.Draw(LevelOneBkGrnd, new Rectangle(Cam.View.X, Cam.View.Y, tsWidth * tileMap.GetLength(1) / 2,tileMap.GetLength(0) * 64), Color.White);
                     foreach (Tile t in tileManager.ActiveLayer.Tiles)
@@ -614,12 +616,12 @@ namespace GameAttempt
 
                     }
 
-
+                    // Draws the collision image to the screen 
                     foreach (var item in collisons)
                         item.draw(spriteBatch);
 
                     break;
-
+                 // Draws the 2th level to the screen
                 case LevelStates.LevelTwo:
                     spriteBatch.Draw(LevelTwoBkGrnd, new Rectangle(Cam.View.X, Cam.View.Y, tsWidth * tileMap.GetLength(1) / 2, 64 * tileMap.GetLength(0)), Color.White);
                     foreach (Tile t in tileManager.ActiveLayer.Tiles)
@@ -640,12 +642,12 @@ namespace GameAttempt
 
                     }
 
-
+                    // Draws the collision image to the screen 
                     foreach (var item in collisons)
                         item.draw(spriteBatch);
 
                     break;
-
+                    // draws the third level to the screen 
                 case LevelStates.LevelThree:
                     spriteBatch.Draw(LevelThreeBkGrnd, new Rectangle(Cam.View.X, Cam.View.Y, tsWidth * tileMap.GetLength(1) / 2, 64 * tileMap.GetLength(0)), Color.White);
                     foreach (Tile t in tileManager.ActiveLayer.Tiles)
@@ -666,12 +668,12 @@ namespace GameAttempt
 
                     }
 
-
+                    // Draws the collision image to the screen 
                     foreach (var item in collisons)
                         item.draw(spriteBatch);
 
                     break;
-
+                // Draws the 2th level to the screen
                 case LevelStates.LevelFour:
                     spriteBatch.Draw(LevelFourBkGrnd, new Rectangle(Cam.View.X, Cam.View.Y, tsWidth * tileMap.GetLength(1) / 2, 64 * tileMap.GetLength(0)), Color.White);
                     foreach (Tile t in tileManager.ActiveLayer.Tiles)
@@ -692,7 +694,7 @@ namespace GameAttempt
 
                     }
 
-
+                    // Draws the collision image to the screen 
                     foreach (var item in collisons)
                         item.draw(spriteBatch);
 
