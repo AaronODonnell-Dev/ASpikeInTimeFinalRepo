@@ -71,7 +71,7 @@ namespace GameAttempt.Components
                             trender._current = TRender.LevelStates.LevelTwo;
                             trender.tileManager.ActiveLayer = trender.tileManager.GetLayer("LevelTwo");
                             trender.hasLevelChanged = true;
-                            trender.Portal.Visible = true;
+                            //trender.Portal.Visible = true;
 
                             // Creates a set of impassable tiles
                             trender.collisons.Clear(); // Important for removing colliders from screen
