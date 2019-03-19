@@ -21,7 +21,9 @@ namespace Managers
         {
             spriteBatch = new SpriteBatch(game.GraphicsDevice);
             tiles = new TRender(game);
-            game.Services.AddService<TRender>(tiles); // needs to be added before Player to use services
+            game.Services.AddService<TRender>(tiles);
+
+            //Switch for Level States
             switch (tiles._current)
             {
                 case TRender.LevelStates.LevelOne:
@@ -54,7 +56,6 @@ namespace Managers
             }
 
             player = new PlayerComponent(game);
-
             AddToServices();
         }
 
@@ -64,26 +65,6 @@ namespace Managers
             Game.Services.AddService<SpriteBatch>(spriteBatch);
             Game.Services.AddService<PlayerComponent>(player);
             
-        }
-
-        public Camera GetCameraService()
-        {
-            return Game.Services.GetService<Camera>();
-        }
-
-        public PlayerComponent GetPlayerService()
-        {
-            return Game.Services.GetService<PlayerComponent>();
-        }
-
-        public TRender GetTRenderService()
-        {
-            return Game.Services.GetService<TRender>();
-        }
-
-        public SpriteBatch GetSpritebatchServices()
-        {
-            return Game.Services.GetService<SpriteBatch>();
         }
     }
 }
