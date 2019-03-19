@@ -28,8 +28,6 @@ namespace GameAttempt.Components
 
         public override void Initialize()
         {
-            DrawOrder = 0;
-
             base.Initialize();
         }
 
@@ -39,7 +37,7 @@ namespace GameAttempt.Components
             Position = pos;
             myframe = Frame;
             myManager = manager;
-            imageRect = new Rectangle(myframe.TLocX * 128, myframe.TLocY * 128, 128, 128);
+            imageRect = new Rectangle(myframe.TLocX, myframe.TLocY, 64, 64);
             boundingRect = new Rectangle(Position.ToPoint(), imageRect.Size);
             game.Components.Add(this);
         }
@@ -73,11 +71,12 @@ namespace GameAttempt.Components
         {
             SpriteBatch spriteBatch = Game.Services.GetService<SpriteBatch>();
             TRender trender = Game.Services.GetService<TRender>();
+            Camera Cam = Game.Services.GetService<Camera>();
 
             foreach (CollectableComponent collectable in trender.Collectables)
             {
-                spriteBatch.Begin();
-                if(Visible)
+                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Cam.CurrentCamTranslation);
+                if (Visible)
                 {
                     spriteBatch.Draw(Texture, Position, boundingRect, Color.White);
                 }

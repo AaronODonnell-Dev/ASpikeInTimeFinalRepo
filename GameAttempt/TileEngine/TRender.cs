@@ -20,6 +20,7 @@ namespace GameAttempt
         #region Properties
         public TManager tileManager;
         public Texture2D tSheet;
+        public TRef Collectable;
         Texture2D LevelOneBkGrnd;
         Texture2D LevelTwoBkGrnd;
         Texture2D LevelThreeBkGrnd;
@@ -180,13 +181,14 @@ namespace GameAttempt
 
             tileManager = new TManager();
 
+            Collectable = new TRef(8, 1, 64);
 
             Collectables = new List<CollectableComponent> {
-                new CollectableComponent (game, tSheet, new TRef(8, 1, 64), tileManager, new Vector2(150, 700)),
-                new CollectableComponent (game, tSheet, new TRef(8, 1, 64), tileManager, new Vector2(950, 720)),
-                new CollectableComponent (game, tSheet, new TRef(8, 1, 64), tileManager, new Vector2(1150, 720)),
-                new CollectableComponent (game, tSheet, new TRef(8, 1, 64), tileManager, new Vector2(150, 720)),
-                new CollectableComponent (game, tSheet, new TRef(8, 1, 64), tileManager, new Vector2(150, 720))
+                new CollectableComponent (game, tSheet, Collectable, tileManager, new Vector2(150, 700)),
+                new CollectableComponent (game, tSheet, Collectable, tileManager, new Vector2(950, 720)),
+                new CollectableComponent (game, tSheet, Collectable, tileManager, new Vector2(1150, 720)),
+                new CollectableComponent (game, tSheet, Collectable, tileManager, new Vector2(150, 720)),
+                new CollectableComponent (game, tSheet, Collectable, tileManager, new Vector2(150, 720))
                 };
         }
 
@@ -285,7 +287,7 @@ namespace GameAttempt
             tRefs.Add(new TRef(8, 0, 61));   // Slug Enemy
             tRefs.Add(new TRef(9, 0, 62));   // Alien Shooter
             tRefs.Add(new TRef(10, 0, 63));  // BombBoy
-            tRefs.Add(new TRef(8, 1, 64));   // Portal Gem
+            tRefs.Add(Collectable);   // Portal Gem
             tRefs.Add(new TRef(9, 1, 65));   // Buzz Saw
             tRefs.Add(new TRef(10, 1, 66));  // Spikes
             tRefs.Add(new TRef(8, 2, 67));   // Portal Closed
