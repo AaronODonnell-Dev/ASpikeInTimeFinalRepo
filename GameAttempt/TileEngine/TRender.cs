@@ -38,7 +38,7 @@ namespace GameAttempt
         //List of Collectables
         public List<CollectableComponent> Collectables;
         //Portal
-        public PortalComponent Portal;
+        public List<PortalComponent> Portal;
 
         //List of Enemies
         public List<EnemyComponent> enemies;
@@ -204,64 +204,6 @@ namespace GameAttempt
             SlugEnemy = new TRef(8 * 128, 0, 61);   // Slug Enemy
             Alien = new TRef(9 * 128, 0, 62);   // Alien Shooter
             BombBoy = new TRef(10 * 128, 0, 63);  // BombBoy
-
-            switch (_current)
-            {
-                case LevelStates.LevelOne:
-                    Collectables = new List<CollectableComponent> {
-                        new CollectableComponent (game, tSheet, Collectable, tileManager, new Vector2(400, 800)),
-                        new CollectableComponent (game, tSheet, Collectable, tileManager, new Vector2(950, 780)),
-                        new CollectableComponent (game, tSheet, Collectable, tileManager, new Vector2(1250, 750)),
-                        new CollectableComponent (game, tSheet, Collectable, tileManager, new Vector2(1400, 120)),
-                        new CollectableComponent (game, tSheet, Collectable, tileManager, new Vector2(150, 300))
-                        };
-
-                    Portal = new PortalComponent(game, tSheet, ClosedPortal, tileManager, new Vector2(50, 320));
-
-                    enemies = new List<EnemyComponent>
-                    {
-                        new EnemyComponent (game, tSheet, SlugEnemy, tileManager, new Vector2(900, 960)),
-                        new EnemyComponent (game, tSheet, Alien, tileManager, new Vector2(15, 320)),
-                        new EnemyComponent (game, tSheet, BombBoy, tileManager, new Vector2(820, 960))
-                    };
-                    break;
-
-                case LevelStates.LevelTwo:
-                    Collectables = new List<CollectableComponent> {
-                        new CollectableComponent (game, tSheet, Collectable, tileManager, new Vector2(400, 800)),
-                        new CollectableComponent (game, tSheet, Collectable, tileManager, new Vector2(950, 780)),
-                        new CollectableComponent (game, tSheet, Collectable, tileManager, new Vector2(1250, 750)),
-                        new CollectableComponent (game, tSheet, Collectable, tileManager, new Vector2(1400, 120)),
-                        new CollectableComponent (game, tSheet, Collectable, tileManager, new Vector2(150, 300))
-                        };
-
-                    Portal = new PortalComponent(game, tSheet, ClosedPortal, tileManager, new Vector2(25, 370));
-                    break;
-
-                case LevelStates.LevelThree:
-                    Collectables = new List<CollectableComponent> {
-                        new CollectableComponent (game, tSheet, Collectable, tileManager, new Vector2(400, 800)),
-                        new CollectableComponent (game, tSheet, Collectable, tileManager, new Vector2(950, 780)),
-                        new CollectableComponent (game, tSheet, Collectable, tileManager, new Vector2(1250, 750)),
-                        new CollectableComponent (game, tSheet, Collectable, tileManager, new Vector2(1400, 120)),
-                        new CollectableComponent (game, tSheet, Collectable, tileManager, new Vector2(150, 300))
-                        };
-
-                    Portal = new PortalComponent(game, tSheet, ClosedPortal, tileManager, new Vector2(50, 320));
-                    break;
-
-                case LevelStates.LevelFour:
-                    Collectables = new List<CollectableComponent> {
-                        new CollectableComponent (game, tSheet, Collectable, tileManager, new Vector2(400, 800)),
-                        new CollectableComponent (game, tSheet, Collectable, tileManager, new Vector2(950, 780)),
-                        new CollectableComponent (game, tSheet, Collectable, tileManager, new Vector2(1250, 750)),
-                        new CollectableComponent (game, tSheet, Collectable, tileManager, new Vector2(1400, 120)),
-                        new CollectableComponent (game, tSheet, Collectable, tileManager, new Vector2(150, 300))
-                        };
-
-                    Portal = new PortalComponent(game, tSheet, ClosedPortal, tileManager, new Vector2(50, 320));
-                    break;
-            }
         }
 
         public override void Initialize()
@@ -555,6 +497,8 @@ namespace GameAttempt
             //Sets Collison tiles
             SetupCollison();
 
+            SetupComponents();
+
             base.LoadContent();
         }
 
@@ -568,6 +512,67 @@ namespace GameAttempt
                               new Vector2(t.TileWidth / 2, t.TileHeight / 2)));
             }
 
+        }
+
+        public void SetupComponents()
+        {
+            switch (_current)
+            {
+                case LevelStates.LevelOne:
+                    Collectables = new List<CollectableComponent> {
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(400, 800)),
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(950, 780)),
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(1250, 750)),
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(1400, 120)),
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(150, 300))
+                        };
+
+                    Portal = new List<PortalComponent> { new PortalComponent(Game, tSheet, ClosedPortal, tileManager, new Vector2(50, 320)) };
+
+                    //enemies = new List<EnemyComponent>
+                    //{
+                    //    new EnemyComponent (Game, tSheet, SlugEnemy, tileManager, new Vector2(900, 960)),
+                    //    new EnemyComponent (Game, tSheet, Alien, tileManager, new Vector2(15, 320)),
+                    //    new EnemyComponent (Game, tSheet, BombBoy, tileManager, new Vector2(820, 960))
+                    //};
+                    break;
+
+                case LevelStates.LevelTwo:
+                    Collectables = new List<CollectableComponent> {
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(400, 800)),
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(950, 780)),
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(1250, 750)),
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(1400, 120)),
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(1200, 300))
+                        };
+
+                    Portal = new List<PortalComponent> { new PortalComponent(Game, tSheet, ClosedPortal, tileManager, new Vector2(25, 370)) };
+                    break;
+
+                case LevelStates.LevelThree:
+                    Collectables = new List<CollectableComponent> {
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(400, 200)),
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(950, 120)),
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(1250, 150)),
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(1400, 120)),
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(350, 1200))
+                        };
+
+                    Portal = new List<PortalComponent> { new PortalComponent(Game, tSheet, ClosedPortal, tileManager, new Vector2(50, 320)) };
+                    break;
+
+                case LevelStates.LevelFour:
+                    Collectables = new List<CollectableComponent> {
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(400, 800)),
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(950, 780)),
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(1250, 750)),
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(1400, 120)),
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(150, 300))
+                        };
+
+                    Portal = new List<PortalComponent> { new PortalComponent(Game, tSheet, ClosedPortal, tileManager, new Vector2(50, 320)) };
+                    break;
+            }
         }
 
         public override void Update(GameTime gameTime)

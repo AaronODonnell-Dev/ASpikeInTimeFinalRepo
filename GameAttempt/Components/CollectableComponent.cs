@@ -79,16 +79,15 @@ namespace GameAttempt.Components
             TRender trender = Game.Services.GetService<TRender>();
             Camera Cam = Game.Services.GetService<Camera>();
 
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Cam.CurrentCamTranslation);
             foreach (CollectableComponent collectable in trender.Collectables)
             {
-                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Cam.CurrentCamTranslation);
                 if (Visible)
                 {
                     spriteBatch.Draw(Texture, boundingRect, imageRect, Color.White);
                 }
-                spriteBatch.End();
             }
-
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }

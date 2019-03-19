@@ -64,19 +64,23 @@ namespace GameAttempt.Components
                     {
                         if (boundingRect.Intersects(player.Bounds) && PortalOpen)
                         {
+                            Visible = false;
+                            Enabled = false;
                             player.Collectables = 0;
-                            trender.Collectables.Clear();
-                            trender.Portal.Visible = false;
 
                             trender._current = TRender.LevelStates.LevelTwo;
                             trender.tileManager.ActiveLayer = trender.tileManager.GetLayer("LevelTwo");
                             trender.hasLevelChanged = true;
-                            //trender.Portal.Visible = true;
+
+                            trender.Collectables.Clear();
+                            trender.Portal.Clear();
+                            //trender.enemies.Clear();
 
                             // Creates a set of impassable tiles
                             trender.collisons.Clear(); // Important for removing colliders from screen
                             trender.tileManager.ActiveLayer.makeImpassable(trender.impassableTiles);
                             trender.SetupCollison();
+                            trender.SetupComponents();
                         }
                     }
 
@@ -88,8 +92,9 @@ namespace GameAttempt.Components
                     {
                         if (boundingRect.Intersects(player.Bounds) && PortalOpen)
                         {
+                            Visible = false;
+                            Enabled = false;
                             player.Collectables = 0;
-                            trender.Collectables.Clear();
 
                             trender._current = TRender.LevelStates.LevelThree;
                             trender.tileManager.ActiveLayer = trender.tileManager.GetLayer("LevelThree");
@@ -97,9 +102,12 @@ namespace GameAttempt.Components
 
                             // Creates a set of impassable tiles
                             trender.collisons.Clear();
+                            trender.Collectables.Clear();
+                            trender.Portal.Clear();
+                            //trender.enemies.Clear();
                             trender.tileManager.ActiveLayer.makeImpassable(trender.impassableTiles);
                             trender.SetupCollison();
-
+                            trender.SetupComponents();
                         }
                     }
 
@@ -111,8 +119,9 @@ namespace GameAttempt.Components
                     {
                         if (boundingRect.Intersects(player.Bounds) && PortalOpen)
                         {
+                            Visible = false;
+                            Enabled = false;
                             player.Collectables = 0;
-                            trender.Collectables.Clear();
 
                             trender._current = TRender.LevelStates.LevelFour;
                             trender.tileManager.ActiveLayer = trender.tileManager.GetLayer("LevelFour");
@@ -120,8 +129,12 @@ namespace GameAttempt.Components
 
                             // Creates a set of impassable tiles
                             trender.collisons.Clear();
+                            trender.Collectables.Clear();
+                            //trender.enemies.Clear();
+                            trender.Portal.Clear();
                             trender.tileManager.ActiveLayer.makeImpassable(trender.impassableTiles);
                             trender.SetupCollison();
+                            trender.SetupComponents();
                         }
                     }
 
@@ -133,8 +146,9 @@ namespace GameAttempt.Components
                     {
                         if (boundingRect.Intersects(player.Bounds) && PortalOpen)
                         {
+                            Visible = false;
+                            Enabled = false;
                             player.Collectables = 0;
-                            trender.Collectables.Clear();
 
                             trender._current = TRender.LevelStates.LevelOne;
                             trender.tileManager.ActiveLayer = trender.tileManager.GetLayer("LevelOne");
@@ -142,8 +156,12 @@ namespace GameAttempt.Components
 
                             // Creates a set of impassable tiles
                             trender.collisons.Clear();
+                            trender.Collectables.Clear();
+                            //trender.enemies.Clear();
+                            trender.Portal.Clear();
                             trender.tileManager.ActiveLayer.makeImpassable(trender.impassableTiles);
                             trender.SetupCollison();
+                            trender.SetupComponents();
                         }
                     }
 
@@ -158,21 +176,24 @@ namespace GameAttempt.Components
             Camera Cam = Game.Services.GetService<Camera>();
             PlayerComponent player = Game.Services.GetService<PlayerComponent>();
 
-            foreach (CollectableComponent collectable in trender.Collectables)
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Cam.CurrentCamTranslation);
+            foreach (PortalComponent portal in trender.Portal)
             {
-                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Cam.CurrentCamTranslation);
-                if (player.Collectables == 5)
+                if(portal.Visible)
                 {
-                    spriteBatch.Draw(Texture, boundingRect, new Rectangle(trender.OpenPortal.TLocX, trender.OpenPortal.TLocY, 128, 128), Color.White);
-                    PortalOpen = true;
+                    if (player.Collectables == 5)
+                    {
+                        spriteBatch.Draw(Texture, boundingRect, new Rectangle(trender.OpenPortal.TLocX, trender.OpenPortal.TLocY, 128, 128), Color.White);
+                        PortalOpen = true;
+                    }
+                    else
+                    {
+                        spriteBatch.Draw(Texture, boundingRect, imageRect, Color.White);
+                        PortalOpen = false;
+                    }
                 }
-                else
-                {
-                    spriteBatch.Draw(Texture, boundingRect, imageRect, Color.White);
-                    PortalOpen = false;
-                }
-                spriteBatch.End();
             }
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
