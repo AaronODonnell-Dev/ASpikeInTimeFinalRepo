@@ -32,13 +32,15 @@ namespace TileEngine
 		{
 			int tileMapHeight = tMap.GetLength(0);	// variable for y component
 			int tileMapWidth = tMap.GetLength(1);   // variable for x component
-			TLayer layer = new TLayer();
-			layer.Tiles = new Tile[tileMapHeight, tileMapWidth];
+
+			TLayer layer = new TLayer();              
+			layer.Tiles = new Tile[tileMapHeight, tileMapWidth];    
 			layer.TRefs = refs;
 			layer.LayerName = layerName;
 			layer.TileWidth = tileWidth;
 			layer.TileHeight = tileHeight;
 
+            // Loops through the tile map and sets the tiles to the appropriate position
 			for (int x = 0; x < tileMapWidth; x++)
 				for (int y = 0; y < tileMapHeight; y++)
 				{
@@ -59,6 +61,7 @@ namespace TileEngine
 			
 		}
 
+        // adds a new layer to the layers list
 		public void addLayer(string layerName,
 							 string[] tileName,
 							 int[,] tMap,
@@ -69,6 +72,7 @@ namespace TileEngine
 			layers.Add(MakeLayer(layerName, tileName, tMap, refs, tileWidth, tileHeight));
 		}
 
+        // finds the layer with the given name in the layer list
 		public TLayer GetLayer(string Name)
 		{
 			foreach (TLayer layer in layers)

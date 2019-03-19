@@ -20,7 +20,8 @@ namespace GameAttempt
             collisonImage = Image;
             collider = new Rectangle((int)startPos.X, (int)startPos.Y, (int)size.X, (int)size.Y);
         }
-
+        // Draws a white square the size of the tile over the tile
+        // for debugging purposes
         public void draw(SpriteBatch spriteBatch)
         {
             if(visible)

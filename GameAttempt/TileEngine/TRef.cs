@@ -13,6 +13,8 @@ namespace TileEngine
 		public int TLocY;
 		public int tVal;
 
+        // for the tiles position on the tilemap
+        // usesd as a reference
 		public TRef( int x, int y, int val)
 		{            
 			TLocX = x;
