@@ -45,6 +45,8 @@
     <Compile Include="Components\Camera.cs" />
     <Compile Include="Components\AnimatedSprite.cs" />
     <Compile Include="Components\CollectableComponent.cs" />
+    <Compile Include="Components\EnemyComponent.cs" />
+    <Compile Include="Components\PortalComponent.cs" />
     <Compile Include="Managers\InputManager.cs" />
     <Compile Include="Components\PlayerComponent.cs" />
     <Compile Include="Game1.cs" />

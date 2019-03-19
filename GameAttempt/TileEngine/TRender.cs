@@ -20,7 +20,15 @@ namespace GameAttempt
         #region Properties
         public TManager tileManager;
         public Texture2D tSheet;
+
+        //References for Components
         public TRef Collectable;
+        public TRef OpenPortal;
+        public TRef ClosedPortal;
+        public TRef SlugEnemy;
+        public TRef BombBoy;
+        public TRef Alien;
+
         Texture2D LevelOneBkGrnd;
         Texture2D LevelTwoBkGrnd;
         Texture2D LevelThreeBkGrnd;
@@ -29,6 +37,11 @@ namespace GameAttempt
 
         //List of Collectables
         public List<CollectableComponent> Collectables;
+        //Portal
+        public List<PortalComponent> Portal;
+
+        //List of Enemies
+        public List<EnemyComponent> enemies;
 
         //Audio
         public Song BackgroundMusic;
@@ -86,25 +99,24 @@ namespace GameAttempt
             // Level 1
             tileMap = new int[,]
                 {
-                  
+                    {   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, },
+                    {   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, },
+                    {   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, },
                     {   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  2,  2,  2,  2,  2,  2,  2, },
                     {   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  14, 2,  2,  2,  2,  2,  2,  2,  2, },
                     {   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  16, 1,  2,  2,  2,  2,  2,  2,  2,  2,  2, },
-                    {   67, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, },
+                    {   0, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, },
                     {   1,  1,  1,  1,  17, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  9,  10, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, },
-                    {   0,  0,  0,  0,  0,  0,  16, 1,  1,  17, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  13,  1,  0,  74, 0,  0,  0,  0,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, },
-                    {   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  1,  1,  12, 0,  0,  74, 2,  2,  2,  2,  2,  2,  2,  2,  2,  2, },
+                    {   0,  0,  0,  0,  0,  0,  16, 1,  1,  17, 0,  0,  0,  0,  1,  1,  0,  0,  0,  0,  0,  13,  1,  0,  74, 0,  0,  0,  0,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, },
+                    {   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  1,  1,  12, 0,  0,  74, 2,  2,  2,  1,  1,  2,  2,  2,  2,  2, },
                     {   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  0,  2,  0,  0,  13, 1,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, },
-                    {   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  0,  2,  0,  0,  0,  2,  2,  1,  1,  2,  2,  2,  2,  2,  2,  2, },
-                    {   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  0,  2,  2,  0,  0,  2,  2,  2,  2,  1,  1,  2,  2,  2,  2,  2, },
+                    {   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  0,  2,  0,  0,  0,  2,  2,  2,  2,  2,  2,  1,  1,  2,  2,  2, },
+                    {   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  0,  2,  2,  0,  0,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, },
                     {   74, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  2,  0,  2,  2,  0,  0,  0,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, },
-                    {   77, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  2,  0,  2,  2,  0,  0,  0,  2,  2,  2,  2,  2,  2,  2,  1,  1,  1, },
-                    {   80, 80, 0,  0,  0,  0,  0,  74, 74, 0,  0,  0,  0,  0,  0,  0,  74, 0,  0,  0,  0,  2,  2,  1,  1,  1,  1,  1,  1,  12,  2,  2,  2,  2,  2,  1,  2,  2,  2, },
-                    {   2, 70,  0,  0,  0,  0,  0,  77, 77, 0,  0,  0,  0,  0,  0,  0,  77, 0,  0,  0,  0,  2,  1,  2,  2,  2,  2,  2,  2,  0,  2,  2,  2,  2,  1,  2,  2,  2,  2, },
+                    {   77, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  2,  0,  2,  2,  0,  0,  0,  2,  2,  2,  2,  2,  2,  2,  2,  1,  1, },
+                    {   80, 80, 0,  0,  0,  0,  0,  74, 74, 0,  0,  0,  0,  0,  0,  0,  74, 0,  0,  0,  0,  2,  2,  1,  1,  1,  1,  1,  1,  12,  2,  2,  2,  2,  2,  2,  2,  2,  2, },
+                    {   2, 70,  0,  0,  0,  0,  0,  77, 77, 0,  0,  0,  0,  0,  0,  0,  77, 0,  0,  0,  0,  2,  1,  2,  2,  2,  2,  2,  2,  0,  2,  2,  2,  2,  1,  1,  1,  2,  2, },
                     {   1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  2,  2,  2,  2,  2,  2,  2,  1,  1,  1,  1,  1,  2,  2,  2,  2,  2, },
-                    {   2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, },
-                    {   2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, },
-                    {   2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, },
                     {   2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, },
 
                 };
@@ -189,14 +201,13 @@ namespace GameAttempt
             tileManager = new TManager();
 
             Collectable = new TRef(128 * 8, 128, 64);
+            ClosedPortal = new TRef(128 * 8, 128 * 2, 67);
+            OpenPortal = new TRef(128 * 9, 128 * 2, 68);
 
-            Collectables = new List<CollectableComponent> {
-                new CollectableComponent (game, tSheet, Collectable, tileManager, new Vector2(150, 700)),
-                new CollectableComponent (game, tSheet, Collectable, tileManager, new Vector2(950, 720)),
-                new CollectableComponent (game, tSheet, Collectable, tileManager, new Vector2(1150, 720)),
-                new CollectableComponent (game, tSheet, Collectable, tileManager, new Vector2(150, 720)),
-                new CollectableComponent (game, tSheet, Collectable, tileManager, new Vector2(150, 720))
-                };
+            //Enemies
+            SlugEnemy = new TRef(8 * 128, 0, 61);   // Slug Enemy
+            Alien = new TRef(9 * 128, 0, 62);   // Alien Shooter
+            BombBoy = new TRef(10 * 128, 0, 63);  // BombBoy
         }
 
         public override void Initialize()
@@ -215,6 +226,7 @@ namespace GameAttempt
             Lvl2Song = Game.Content.Load<Song>("Audio/IceAgeLvl2Final");
             Lvl3Song = Game.Content.Load<Song>("Audio/FalloutLvl3Final");
             Lvl4Song = Game.Content.Load<Song>("Audio/MelvinsMotherShipLvl4Final");
+
             #region Adding Tile References
             // create a new tile from the TileSheet in list (locX, locY, IndexNum)
             //Reused tile refs
@@ -294,14 +306,14 @@ namespace GameAttempt
             tRefs.Add(new TRef(6, 7, 60));   // Thin Rounded left
 
             // Other Tiles
-            tRefs.Add(new TRef(8, 0,  61));   // Slug Enemy
-            tRefs.Add(new TRef(9, 0,  62));   // Alien Shooter
-            tRefs.Add(new TRef(10, 0, 63));  // BombBoy
-            tRefs.Add(Collectable);             // Portal Gem
-            tRefs.Add(new TRef(9, 1,  65));   // Buzz Saw
+            tRefs.Add(SlugEnemy);   // Slug Enemy
+            tRefs.Add(Alien);   // Alien Shooter
+            tRefs.Add(BombBoy);  // BombBoy
+            tRefs.Add(Collectable);   // Portal Gem
+            tRefs.Add(new TRef(9, 1, 65));   // Buzz Saw
             tRefs.Add(new TRef(10, 1, 66));  // Spikes
-            tRefs.Add(new TRef(8, 2,  67));   // Portal Closed
-            tRefs.Add(new TRef(9, 2,  68));   // Portal Opened
+            tRefs.Add(ClosedPortal);   // Portal Closed
+            tRefs.Add(OpenPortal);   // Portal Opened
             tRefs.Add(new TRef(10, 2, 69));  // Heart
             tRefs.Add(new TRef(8, 3,  70));   // Car
             tRefs.Add(new TRef(9, 3,  71));   // Lamp Post
@@ -489,6 +501,8 @@ namespace GameAttempt
             //Sets Collison tiles
             SetupCollison();
 
+            SetupComponents();
+
             base.LoadContent();
         }
 
@@ -504,67 +518,99 @@ namespace GameAttempt
 
         }
 
+        public void SetupComponents()
+        {
+            switch (_current)
+            {
+                case LevelStates.LevelOne:
+                    Collectables = new List<CollectableComponent> {
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(400, 800)),
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(950, 780)),
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(1250, 750)),
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(1400, 120)),
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(150, 300))
+                        };
+
+                    Portal = new List<PortalComponent> { new PortalComponent(Game, tSheet, ClosedPortal, tileManager, new Vector2(50, 320)) };
+
+                    //enemies = new List<EnemyComponent>
+                    //{
+                    //    new EnemyComponent (Game, tSheet, SlugEnemy, tileManager, new Vector2(900, 960)),
+                    //    new EnemyComponent (Game, tSheet, Alien, tileManager, new Vector2(15, 320)),
+                    //    new EnemyComponent (Game, tSheet, BombBoy, tileManager, new Vector2(820, 960))
+                    //};
+                    break;
+
+                case LevelStates.LevelTwo:
+                    Collectables = new List<CollectableComponent> {
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(400, 800)),
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(950, 780)),
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(1250, 750)),
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(1400, 120)),
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(1200, 300))
+                        };
+
+                    Portal = new List<PortalComponent> { new PortalComponent(Game, tSheet, ClosedPortal, tileManager, new Vector2(25, 370)) };
+                    break;
+
+                case LevelStates.LevelThree:
+                    Collectables = new List<CollectableComponent> {
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(400, 200)),
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(950, 120)),
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(1250, 150)),
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(1400, 120)),
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(350, 1200))
+                        };
+
+                    Portal = new List<PortalComponent> { new PortalComponent(Game, tSheet, ClosedPortal, tileManager, new Vector2(50, 320)) };
+                    break;
+
+                case LevelStates.LevelFour:
+                    Collectables = new List<CollectableComponent> {
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(400, 800)),
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(950, 780)),
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(1250, 750)),
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(1400, 120)),
+                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(150, 300))
+                        };
+
+                    Portal = new List<PortalComponent> { new PortalComponent(Game, tSheet, ClosedPortal, tileManager, new Vector2(50, 320)) };
+                    break;
+            }
+        }
+
         public override void Update(GameTime gameTime)
         {
+            PlayerComponent player = Game.Services.GetService<PlayerComponent>();
+
             // when the level is switched
             switch (_current)
             {
                 // set up for level one
-                case LevelStates.LevelOne:                 
+                case LevelStates.LevelOne:
 
+                    player.Position = new Vector2(100, 700);
                     PlayAudio(Lvl1Song);
                     hasLevelChanged = false;
 
-                    if (InputManager.IsButtonPressed(Buttons.RightTrigger))
-                    {
-                        _current = LevelStates.LevelTwo;
-                        tileManager.ActiveLayer = tileManager.GetLayer("LevelTwo");
-                        hasLevelChanged = true;
-
-                        // Creates a set of impassable tiles
-                        collisons.Clear(); // Important for removing colliders from screen
-                        tileManager.ActiveLayer.makeImpassable(impassableTiles);
-                        SetupCollison();
-                    }
                     break;
                 // set up for level 2
                 case LevelStates.LevelTwo:
 
+                    player.Position = new Vector2(100, 700);
                     PlayAudio(Lvl2Song);
 
                     hasLevelChanged = false;
 
-                    if (InputManager.IsButtonPressed(Buttons.RightShoulder))
-                    {
-                        _current = LevelStates.LevelThree;
-                        tileManager.ActiveLayer = tileManager.GetLayer("LevelThree");
-                        hasLevelChanged = true;
-
-                        // Creates a set of impassable tiles
-                        collisons.Clear();
-                        tileManager.ActiveLayer.makeImpassable(impassableTiles);
-                        SetupCollison();
-                    }
                     break;
                 // set up for level 3
                 case LevelStates.LevelThree:
+
 
                     PlayAudio(Lvl3Song);
 
                     hasLevelChanged = false;
 
-                    if (InputManager.IsButtonPressed(Buttons.LeftTrigger))
-                    {
-                        _current = LevelStates.LevelFour;
-                        tileManager.ActiveLayer = tileManager.GetLayer("LevelFour");
-                        hasLevelChanged = true;
-
-                        // Creates a set of impassable tiles
-                        collisons.Clear();
-                        tileManager.ActiveLayer.makeImpassable(impassableTiles);
-                        SetupCollison();
-
-                    }
                     break;
                 // set up for level 4
                 case LevelStates.LevelFour:
@@ -573,17 +619,6 @@ namespace GameAttempt
 
                     hasLevelChanged = false;
 
-                    if (InputManager.IsButtonPressed(Buttons.LeftShoulder))
-                    {
-                        _current = LevelStates.LevelOne;
-                        tileManager.ActiveLayer = tileManager.GetLayer("LevelOne");
-                        hasLevelChanged = true;
-
-                        // Creates a set of impassable tiles
-                        collisons.Clear();
-                        tileManager.ActiveLayer.makeImpassable(impassableTiles);
-                        SetupCollison();
-                    }
                     break;
             }
             base.Update(gameTime);

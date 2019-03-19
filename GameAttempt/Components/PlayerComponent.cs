@@ -130,7 +130,7 @@ namespace GameAttempt.Components
             camera.FollowCharacter(Bounds, Game.GraphicsDevice.Viewport);
 
             Bounds = new Rectangle((int)Sprite.position.X, (int)Sprite.position.Y + 15, Sprite.SpriteWidth, Sprite.SpriteHeight - 15);
-            collisionRect = new Rectangle(Bounds.Location.X, Bounds.Location.Y, Bounds.Width, Bounds.Height + 7);
+            collisionRect = new Rectangle(Bounds.Location.X, Bounds.Location.Y, Bounds.Width, Bounds.Height + 5);
             sideOnCollisionRect = new Rectangle(Bounds.Location.X, Bounds.Location.Y, Bounds.Width + 7, Bounds.Height);
             GamePadState state = GamePad.GetState(index);
 
@@ -260,7 +260,7 @@ namespace GameAttempt.Components
 
                     if (!isJumping)
                     {
-                        Sprite.position.Y -= 120;
+                        Sprite.position.Y -= 150;
                         Sprite.position.X += state.ThumbSticks.Left.X * speed;
                         isJumping = true;
                         _current = PlayerState.FALL;
@@ -280,6 +280,27 @@ namespace GameAttempt.Components
             }
 
             base.Update(gameTime);
+        }
+
+        public void ResetPlayer()
+        {
+            TRender tile = Game.Services.GetService<TRender>();
+
+            switch(tiles._current)
+            {
+                case TRender.LevelStates.LevelOne:
+                    Sprite.position = new Vector2(100, 800);
+                    break;
+
+                case TRender.LevelStates.LevelTwo:
+                    break;
+
+                case TRender.LevelStates.LevelThree:
+                    break;
+
+                case TRender.LevelStates.LevelFour:
+                    break;
+            }
         }
 
         public bool Collision(List<Collider> collisionSet)
@@ -317,14 +338,11 @@ namespace GameAttempt.Components
                     spriteBatch.Draw(Sprite.SpriteImage, Sprite.BoundingRect, Sprite.FallSource, Color.White, 0f, Vector2.Zero, tiles.effect, 0f);
                     break;
             }
-            spriteBatch.DrawString(font, _current.ToString(), new Vector2(Sprite.position.X + 5, Sprite.position.Y - 10), Color.Black);
-            spriteBatch.DrawString(font, previousPosition.X.ToString(), new Vector2(Sprite.position.X + 150, Sprite.position.Y - 10), Color.Black);
-            spriteBatch.DrawString(font, Sprite.position.X.ToString(), new Vector2(Sprite.position.X - 150, Sprite.position.Y - 10), Color.Red);
-            //spriteBatch.DrawString(font, Bounds.ToString(), new Vector2(100, 220), Color.Black);
-            //spriteBatch.DrawString(font, collisionRect.ToString(), new Vector2(400, 220), Color.Black);
-            //spriteBatch.DrawString(font, distance.ToString(), new Vector2(100, 240), Color.Black);
-            //spriteBatch.DrawString(font, playerRightSideDistance.ToString(), new Vector2(220, 240), Color.Black);
-            //spriteBatch.DrawString(font, playerLeftSideDistance.ToString(), new Vector2(340, 240), Color.Black);
+            //spriteBatch.DrawString(font, _current.ToString(), new Vector2(Sprite.position.X + 5, Sprite.position.Y - 10), Color.Black);
+            //spriteBatch.DrawString(font, previousPosition.X.ToString(), new Vector2(Sprite.position.X + 150, Sprite.position.Y - 10), Color.Black);
+            //spriteBatch.DrawString(font, Sprite.position.X.ToString(), new Vector2(Sprite.position.X - 150, Sprite.position.Y - 10), Color.Red);
+            spriteBatch.DrawString(font, "You need to have 5 Portal gems to open this door!", new Vector2(20, 60), Color.Black);
+            spriteBatch.DrawString(font, "Portal Gems : 0" + Collectables.ToString(), new Vector2(20, 40), Color.Black);
             spriteBatch.End();
 
             base.Draw(gameTime);

@@ -1,16 +1,15 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Components;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using TileEngine;
 
 namespace GameAttempt.Components
 {
-    public class CollectableComponent : DrawableGameComponent
+    public class EnemyComponent : DrawableGameComponent
     {
         Texture2D texture;
 
@@ -20,7 +19,6 @@ namespace GameAttempt.Components
             set { texture = value; }
         }
 
-        bool collided = false;
         TRef myframe;
         TManager myManager;
         Rectangle imageRect;
@@ -32,7 +30,7 @@ namespace GameAttempt.Components
             base.Initialize();
         }
 
-        public CollectableComponent(Game game, Texture2D tsheet, TRef Frame,TManager manager, Vector2 pos) : base(game)
+        public EnemyComponent(Game game, Texture2D tsheet, TRef Frame, TManager manager, Vector2 pos) : base(game)
         {
             texture = tsheet;
             Position = pos;
@@ -57,19 +55,14 @@ namespace GameAttempt.Components
             PlayerComponent player = Game.Services.GetService<PlayerComponent>();
             TRender trender = Game.Services.GetService<TRender>();
 
-            foreach (CollectableComponent collectable in trender.Collectables)
+            foreach (EnemyComponent enemies in trender.enemies)
             {
-                if (boundingRect.Intersects(player.Bounds))
+                if(player.Bounds.Intersects(boundingRect))
                 {
-                    Enabled = false;
+                    player.ResetPlayer();
                     Visible = false;
-                    collided = true;
+                    Enabled = false;
                 }
-            }
-            if(collided == true)
-            {
-                player.Collectables += 1;
-                collided = false;
             }
         }
 
@@ -79,15 +72,16 @@ namespace GameAttempt.Components
             TRender trender = Game.Services.GetService<TRender>();
             Camera Cam = Game.Services.GetService<Camera>();
 
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Cam.CurrentCamTranslation);
             foreach (CollectableComponent collectable in trender.Collectables)
             {
+                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Cam.CurrentCamTranslation);
                 if (Visible)
                 {
                     spriteBatch.Draw(Texture, boundingRect, imageRect, Color.White);
                 }
+                spriteBatch.End();
             }
-            spriteBatch.End();
+
             base.Draw(gameTime);
         }
     }
