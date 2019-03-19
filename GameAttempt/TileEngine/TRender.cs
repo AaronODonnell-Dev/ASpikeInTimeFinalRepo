@@ -26,6 +26,9 @@ namespace GameAttempt
         Texture2D LevelFourBkGrnd;
         public SpriteEffects effect;
 
+        //List of Collectables
+        public List<CollectableComponent> Collectables;
+
         //Audio
         public Song BackgroundMusic;
         public bool hasLevelChanged = false;
@@ -90,7 +93,7 @@ namespace GameAttempt
                     {   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  0,  2,  0,  0,  0,  2,  2,  1,  1,  2,  2,  2,  2,  2,  2,  2, },
                     {   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  0,  2,  2,  0,  0,  2,  2,  2,  2,  1,  1,  2,  2,  2,  2,  2, },
                     {   74, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  2,  0,  2,  2,  0,  0,  0,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, },
-                    {   77, 0,  0,  0,  0,  0,  0,  90,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  2,  0,  2,  2,  0,  0,  0,  2,  2,  2,  2,  2,  2,  2,  1,  1,  1, },
+                    {   77, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  2,  0,  2,  2,  0,  0,  0,  2,  2,  2,  2,  2,  2,  2,  1,  1,  1, },
                     {   80, 80, 0,  0,  0,  0,  0,  74, 74, 0,  0,  0,  0,  0,  0,  0,  74, 0,  0,  0,  0,  2,  2,  1,  1,  1,  1,  1,  1,  12,  2,  2,  2,  2,  2,  1,  2,  2,  2, },
                     {   2, 70,  0,  0,  0,  0,  0,  77, 77, 0,  0,  0,  0,  0,  0,  0,  77, 0,  0,  0,  0,  2,  1,  2,  2,  2,  2,  2,  2,  0,  2,  2,  2,  2,  1,  2,  2,  2,  2, },
                     {   1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  2,  2,  2,  2,  2,  2,  2,  1,  1,  1,  1,  1,  2,  2,  2,  2,  2, },
@@ -176,6 +179,15 @@ namespace GameAttempt
             game.Components.Add(this);
 
             tileManager = new TManager();
+
+
+            Collectables = new List<CollectableComponent> {
+                new CollectableComponent (game, tSheet, new TRef(8, 1, 64), tileManager, new Vector2(150, 700)),
+                new CollectableComponent (game, tSheet, new TRef(8, 1, 64), tileManager, new Vector2(950, 720)),
+                new CollectableComponent (game, tSheet, new TRef(8, 1, 64), tileManager, new Vector2(1150, 720)),
+                new CollectableComponent (game, tSheet, new TRef(8, 1, 64), tileManager, new Vector2(150, 720)),
+                new CollectableComponent (game, tSheet, new TRef(8, 1, 64), tileManager, new Vector2(150, 720))
+                };
         }
 
         public override void Initialize()

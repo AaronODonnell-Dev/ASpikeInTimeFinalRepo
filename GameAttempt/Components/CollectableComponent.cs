@@ -12,44 +12,79 @@ namespace GameAttempt.Components
 {
     public class CollectableComponent : DrawableGameComponent
     {
+        Texture2D texture;
+
+        public Texture2D Texture
+        {
+            get { return texture; }
+            set { texture = value; }
+        }
+
         TRef myframe;
         TManager myManager;
         Rectangle imageRect;
-        private Vector2 Position;
+        Vector2 Position;
+        Rectangle boundingRect;
 
-        public CollectableComponent(Game game, TRef Frame,TManager manager, Vector2 pos) : base(game)
+        public override void Initialize()
         {
-            
+            DrawOrder = 0;
+
+            base.Initialize();
+        }
+
+        public CollectableComponent(Game game, Texture2D tsheet, TRef Frame,TManager manager, Vector2 pos) : base(game)
+        {
+            texture = tsheet;
+            Position = pos;
             myframe = Frame;
             myManager = manager;
             imageRect = new Rectangle(myframe.TLocX * 128, myframe.TLocY * 128, 128, 128);
-            Position = pos;
+            boundingRect = new Rectangle(Position.ToPoint(), imageRect.Size);
             game.Components.Add(this);
         }
+
         public override void Update(GameTime gametime)
-        {        
-            
+        {
+            //potential for animation
+
+            Collision();
+            base.Update(gametime);
+        }
+
+        public void Collision()
+        {
             // Check for collisions with player
             PlayerComponent player = Game.Services.GetService<PlayerComponent>();
-            if ()
+            TRender trender = Game.Services.GetService<TRender>();
+
+            foreach (CollectableComponent collectable in trender.Collectables)
             {
-                Enabled = false;
-                Visible = false;
+                if (boundingRect.Intersects(player.Bounds))
+                {
+                    player.Collectables++;
+                    Enabled = false;
+                    Visible = false;
+                }
             }
-            base.Update(gametime);
         }
 
         public override void Draw(GameTime gameTime)
         {
             SpriteBatch spriteBatch = Game.Services.GetService<SpriteBatch>();
-            TRender render = Game.Services.GetService<TRender>();
-            spriteBatch.Begin();
+            TRender trender = Game.Services.GetService<TRender>();
 
-            spriteBatch.Draw(render.tSheet, Position, imageRect, Color.White);
-            spriteBatch.End();
+            foreach (CollectableComponent collectable in trender.Collectables)
+            {
+                spriteBatch.Begin();
+                if(Visible)
+                {
+                    spriteBatch.Draw(Texture, Position, boundingRect, Color.White);
+                }
+                spriteBatch.End();
+            }
 
             base.Draw(gameTime);
         }
-
     }
 }

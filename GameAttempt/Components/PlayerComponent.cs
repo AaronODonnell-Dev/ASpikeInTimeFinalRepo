@@ -37,6 +37,7 @@ namespace GameAttempt.Components
         int speed;
         TRender tiles;
         PlayerIndex index;
+        public int Collectables;
 
         //Temp variables to check size and dimensions of the players bounds
         Texture2D TempText;
@@ -126,7 +127,7 @@ namespace GameAttempt.Components
         public override void Update(GameTime gameTime)
         {
             Camera camera = Game.Services.GetService<Camera>();
-            camera.FollowCharacter(Sprite.position, Game.GraphicsDevice.Viewport);
+            camera.FollowCharacter(Bounds, Game.GraphicsDevice.Viewport);
 
             Bounds = new Rectangle((int)Sprite.position.X, (int)Sprite.position.Y + 15, Sprite.SpriteWidth, Sprite.SpriteHeight - 15);
             collisionRect = new Rectangle(Bounds.Location.X, Bounds.Location.Y, Bounds.Width, Bounds.Height + 7);
