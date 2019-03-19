@@ -20,9 +20,15 @@ namespace GameAttempt
         #region Properties
         public TManager tileManager;
         public Texture2D tSheet;
+
+        //References for Components
         public TRef Collectable;
         public TRef OpenPortal;
         public TRef ClosedPortal;
+        public TRef SlugEnemy;
+        public TRef BombBoy;
+        public TRef Alien;
+
         Texture2D LevelOneBkGrnd;
         Texture2D LevelTwoBkGrnd;
         Texture2D LevelThreeBkGrnd;
@@ -33,6 +39,9 @@ namespace GameAttempt
         public List<CollectableComponent> Collectables;
         //Portal
         public PortalComponent Portal;
+
+        //List of Enemies
+        public List<EnemyComponent> enemies;
 
         //Audio
         public Song BackgroundMusic;
@@ -191,7 +200,12 @@ namespace GameAttempt
             ClosedPortal = new TRef(128 * 8, 128 * 2, 67);
             OpenPortal = new TRef(128 * 9, 128 * 2, 68);
 
-            switch(_current)
+            //Enemies
+            SlugEnemy = new TRef(8 * 128, 0, 61);   // Slug Enemy
+            Alien = new TRef(9 * 128, 0, 62);   // Alien Shooter
+            BombBoy = new TRef(10 * 128, 0, 63);  // BombBoy
+
+            switch (_current)
             {
                 case LevelStates.LevelOne:
                     Collectables = new List<CollectableComponent> {
@@ -203,6 +217,13 @@ namespace GameAttempt
                         };
 
                     Portal = new PortalComponent(game, tSheet, ClosedPortal, tileManager, new Vector2(50, 320));
+
+                    enemies = new List<EnemyComponent>
+                    {
+                        new EnemyComponent (game, tSheet, SlugEnemy, tileManager, new Vector2(900, 960)),
+                        new EnemyComponent (game, tSheet, Alien, tileManager, new Vector2(15, 320)),
+                        new EnemyComponent (game, tSheet, BombBoy, tileManager, new Vector2(820, 960))
+                    };
                     break;
 
                 case LevelStates.LevelTwo:
@@ -339,9 +360,9 @@ namespace GameAttempt
             tRefs.Add(new TRef(6, 7, 60));   // Ground but in space
 
             // Other Tiles
-            tRefs.Add(new TRef(8, 0, 61));   // Slug Enemy
-            tRefs.Add(new TRef(9, 0, 62));   // Alien Shooter
-            tRefs.Add(new TRef(10, 0, 63));  // BombBoy
+            tRefs.Add(SlugEnemy);   // Slug Enemy
+            tRefs.Add(Alien);   // Alien Shooter
+            tRefs.Add(BombBoy);  // BombBoy
             tRefs.Add(Collectable);   // Portal Gem
             tRefs.Add(new TRef(9, 1, 65));   // Buzz Saw
             tRefs.Add(new TRef(10, 1, 66));  // Spikes

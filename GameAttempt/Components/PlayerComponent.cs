@@ -130,7 +130,7 @@ namespace GameAttempt.Components
             camera.FollowCharacter(Bounds, Game.GraphicsDevice.Viewport);
 
             Bounds = new Rectangle((int)Sprite.position.X, (int)Sprite.position.Y + 15, Sprite.SpriteWidth, Sprite.SpriteHeight - 15);
-            collisionRect = new Rectangle(Bounds.Location.X, Bounds.Location.Y, Bounds.Width, Bounds.Height + 7);
+            collisionRect = new Rectangle(Bounds.Location.X, Bounds.Location.Y, Bounds.Width, Bounds.Height + 5);
             sideOnCollisionRect = new Rectangle(Bounds.Location.X, Bounds.Location.Y, Bounds.Width + 7, Bounds.Height);
             GamePadState state = GamePad.GetState(index);
 
@@ -280,6 +280,27 @@ namespace GameAttempt.Components
             }
 
             base.Update(gameTime);
+        }
+
+        public void ResetPlayer()
+        {
+            TRender tile = Game.Services.GetService<TRender>();
+
+            switch(tiles._current)
+            {
+                case TRender.LevelStates.LevelOne:
+                    Sprite.position = new Vector2(100, 800);
+                    break;
+
+                case TRender.LevelStates.LevelTwo:
+                    break;
+
+                case TRender.LevelStates.LevelThree:
+                    break;
+
+                case TRender.LevelStates.LevelFour:
+                    break;
+            }
         }
 
         public bool Collision(List<Collider> collisionSet)
