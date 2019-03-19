@@ -32,6 +32,10 @@ namespace GameAttempt
 
         //Audio
         public Song BackgroundMusic;
+        Song Lvl1Song;
+        Song Lvl2Song;
+        Song Lvl3Song;
+        Song Lvl4Song;
         public bool hasLevelChanged = false;
 
         //Level States
@@ -104,7 +108,6 @@ namespace GameAttempt
                     {   2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, },
 
                 };
-
             
             // level 2
             tileMap2 = new int[,]
@@ -204,7 +207,10 @@ namespace GameAttempt
             LevelTwoBkGrnd = Game.Content.Load<Texture2D>("Sprites/IceAgeLevel2Final");
             LevelThreeBkGrnd = Game.Content.Load<Texture2D>("Sprites/FalloutLevel3Final");
             LevelFourBkGrnd = Game.Content.Load<Texture2D>("Sprites/MelvinsShipLevel4Final");
-
+            Lvl1Song = Game.Content.Load<Song>("Audio/dinoParkLvl1Final");
+            Lvl2Song = Game.Content.Load<Song>("Audio/IceAgeLvl2Final");
+            Lvl3Song = Game.Content.Load<Song>("Audio/FalloutLvl3Final");
+            Lvl4Song = Game.Content.Load<Song>("Audio/MelvinsMotherShipLvl4Final");
             #region Adding Tile References
             // create a new tile from the TileSheet in list (locX, locY, IndexNum)
             //Reused tile refs
@@ -305,7 +311,7 @@ namespace GameAttempt
 
             tRefs.Add(new TRef(0, 2, 79));  // Impassible Ground
             tRefs.Add(new TRef(0, 0, 80));  // Ground that can be walked through
-
+            tRefs.Add(new TRef(8, 1, 81));
 
 
 
@@ -500,10 +506,9 @@ namespace GameAttempt
             switch (_current)
             {
                 // set up for level one
-                case LevelStates.LevelOne:
+                case LevelStates.LevelOne:                 
 
-                    PlayAudio();
-
+                    PlayAudio(Lvl1Song);
                     hasLevelChanged = false;
 
                     if (InputManager.IsButtonPressed(Buttons.RightTrigger))
@@ -521,7 +526,7 @@ namespace GameAttempt
                 // set up for level 2
                 case LevelStates.LevelTwo:
 
-                    PlayAudio();
+                    PlayAudio(Lvl2Song);
 
                     hasLevelChanged = false;
 
@@ -540,7 +545,7 @@ namespace GameAttempt
                 // set up for level 3
                 case LevelStates.LevelThree:
 
-                    PlayAudio();
+                    PlayAudio(Lvl3Song);
 
                     hasLevelChanged = false;
 
@@ -560,7 +565,7 @@ namespace GameAttempt
                 // set up for level 4
                 case LevelStates.LevelFour:
 
-                    PlayAudio();
+                    PlayAudio(Lvl4Song);
 
                     hasLevelChanged = false;
 
@@ -580,21 +585,17 @@ namespace GameAttempt
             base.Update(gameTime);
         }
         //Audio code
-        public void PlayAudio()
+        public void PlayAudio(Song levelSong)
         {
             if (MediaPlayer.State != MediaState.Playing /*&& !hasLevelChanged*/)
             {
-                //MediaPlayer.Play(BackgroundMusic);
+                MediaPlayer.Play(levelSong);
                 MediaPlayer.Volume = .5f;
                 MediaPlayer.IsRepeating = true;
             }
             else if (MediaPlayer.State == MediaState.Playing && hasLevelChanged)
             {
                 MediaPlayer.Stop();
-                //MediaPlayer.MoveNext();
-                //MediaPlayer.Play(BackgroundMusic);
-                //MediaPlayer.Volume = .5f;
-                //MediaPlayer.IsRepeating = true;
             }
         }
 
