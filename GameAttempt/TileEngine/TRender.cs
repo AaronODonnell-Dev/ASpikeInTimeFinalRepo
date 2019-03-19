@@ -539,7 +539,7 @@ namespace GameAttempt
                     enemies = new List<EnemyComponent>
                     {
                         new EnemyComponent (Game, tSheet, SlugEnemy, tileManager, new Vector2(900, 960)),
-                        new EnemyComponent (Game, tSheet, Alien, tileManager, new Vector2(15, 320)),
+                        new EnemyComponent (Game, tSheet, Alien, tileManager, new Vector2(85, 320)),
                         new EnemyComponent (Game, tSheet, BombBoy, tileManager, new Vector2(820, 960))
                     };
                     break;

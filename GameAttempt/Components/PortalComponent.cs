@@ -113,6 +113,7 @@ namespace GameAttempt.Components
                             trender.collisons.Clear();
                             trender.Collectables.Clear();
                             trender.Portal.Clear();
+                            trender.enemies.Clear();
                             player.ResetPlayer();
 
                             trender.tileManager.ActiveLayer.makeImpassable(trender.impassableTiles);
