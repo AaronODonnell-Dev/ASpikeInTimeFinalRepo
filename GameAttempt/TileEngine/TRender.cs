@@ -184,7 +184,7 @@ namespace GameAttempt
 
             tileManager = new TManager();
 
-            Collectable = new TRef(8, 1, 64);
+            Collectable = new TRef(128 * 8, 128, 64);
 
             Collectables = new List<CollectableComponent> {
                 new CollectableComponent (game, tSheet, Collectable, tileManager, new Vector2(150, 700)),
