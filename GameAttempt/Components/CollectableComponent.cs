@@ -37,7 +37,7 @@ namespace GameAttempt.Components
             Position = pos;
             myframe = Frame;
             myManager = manager;
-            imageRect = new Rectangle(myframe.TLocX, myframe.TLocY, 64, 64);
+            imageRect = new Rectangle(myframe.TLocX, myframe.TLocY, 128, 128);
             boundingRect = new Rectangle(Position.ToPoint(), imageRect.Size);
             game.Components.Add(this);
         }
@@ -78,7 +78,7 @@ namespace GameAttempt.Components
                 spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Cam.CurrentCamTranslation);
                 if (Visible)
                 {
-                    spriteBatch.Draw(Texture, Position, boundingRect, Color.White);
+                    spriteBatch.Draw(Texture, boundingRect, imageRect, Color.White);
                 }
                 spriteBatch.End();
             }
