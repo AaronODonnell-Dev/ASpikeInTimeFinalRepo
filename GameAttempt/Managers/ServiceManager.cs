@@ -16,19 +16,20 @@ namespace Managers
         PlayerComponent player;
         TRender tiles;
         SpriteBatch spriteBatch;
-        CollectableComponent cComponet;
+
         public ServiceManager(Game game) : base(game)
         {
             spriteBatch = new SpriteBatch(game.GraphicsDevice);
             tiles = new TRender(game);
-            game.Services.AddService<TRender>(tiles); // needs to be added before Player to use services
-            // Incase we wanted to have multiple different cameras 
+            game.Services.AddService<TRender>(tiles);
+
+            //Switch for Level States
             switch (tiles._current)
             {
                 case TRender.LevelStates.LevelOne:
                     camera = new Camera(Vector2.Zero,
-                         new Vector2(tiles.tileMap.GetLength(1) *  tiles.tsWidth,
-                         tiles.tileMap.GetLength(0) * tiles.tsHeight) ,
+                         new Vector2(tiles.tileMap.GetLength(1) * tiles.tsWidth,
+                         tiles.tileMap.GetLength(0) * tiles.tsHeight),
                          tiles.GraphicsDevice.Viewport);
                     break;
 
@@ -41,21 +42,20 @@ namespace Managers
 
                 case TRender.LevelStates.LevelThree:
                     camera = new Camera(Vector2.Zero,
-                        new Vector2(tiles.tileMap.GetLength(1) * tiles.tsWidth,
-                        tiles.tileMap.GetLength(0) * tiles.tsHeight),
-                        tiles.GraphicsDevice.Viewport);
+                         new Vector2(tiles.tileMap.GetLength(1) * tiles.tsWidth,
+                         tiles.tileMap.GetLength(0) * tiles.tsHeight),
+                         tiles.GraphicsDevice.Viewport);
                     break;
 
                 case TRender.LevelStates.LevelFour:
                     camera = new Camera(Vector2.Zero,
-                        new Vector2(tiles.tileMap.GetLength(1) * tiles.tsWidth,
-                        tiles.tileMap.GetLength(0) * tiles.tsHeight),
-                        tiles.GraphicsDevice.Viewport);
+                         new Vector2(tiles.tileMap.GetLength(1) * tiles.tsWidth,
+                         tiles.tileMap.GetLength(0) * tiles.tsHeight),
+                         tiles.GraphicsDevice.Viewport);
                     break;
             }
 
             player = new PlayerComponent(game);
-           cComponet = new CollectableComponent(game, new TileEngine.TRef(8, 1, 81), tiles.tileManager, Vector2.Zero);
             AddToServices();
         }
 
@@ -65,26 +65,6 @@ namespace Managers
             Game.Services.AddService<SpriteBatch>(spriteBatch);
             Game.Services.AddService<PlayerComponent>(player);
             
-        }
-
-        public Camera GetCameraService()
-        {
-            return Game.Services.GetService<Camera>();
-        }
-
-        public PlayerComponent GetPlayerService()
-        {
-            return Game.Services.GetService<PlayerComponent>();
-        }
-
-        public TRender GetTRenderService()
-        {
-            return Game.Services.GetService<TRender>();
-        }
-
-        public SpriteBatch GetSpritebatchServices()
-        {
-            return Game.Services.GetService<SpriteBatch>();
         }
     }
 }

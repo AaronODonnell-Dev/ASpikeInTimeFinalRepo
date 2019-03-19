@@ -20,9 +20,8 @@ namespace GameAttempt.Components
 
         //variables for collision handling
         Rectangle collisionRect;
+        Rectangle sideOnCollisionRect;
         float distance;
-        float playerRightSideDistance;
-        float playerLeftSideDistance;
 
         //variables for player position and drawing
         public Vector2 previousPosition;
@@ -33,14 +32,12 @@ namespace GameAttempt.Components
         SoundEffect sndJump, sndWalk, sndWalk2;
         SoundEffectInstance sndJumpIns, sndWalkIns, sndWalkIns2;
 
-        bool tooFarLeft = false;
-        bool tooFarRight = false;
-
         //other variables
         SpriteFont font;
         int speed;
         TRender tiles;
         PlayerIndex index;
+        public int Collectables;
 
         //Temp variables to check size and dimensions of the players bounds
         Texture2D TempText;
@@ -59,12 +56,10 @@ namespace GameAttempt.Components
 
         public override void Initialize()
         {
-            Position = new Vector2(128, 500 );
-            speed = 9;
+            Position = new Vector2(100, 700);
+            speed = 7;
             ID = (int)index;
             _current = PlayerState.FALL;
-
-            //serviceManager = new ServiceManager(Game);
 
             base.Initialize();
         }
@@ -131,47 +126,32 @@ namespace GameAttempt.Components
 
         public override void Update(GameTime gameTime)
         {
-            bool hasCollided = false;
-
             Camera camera = Game.Services.GetService<Camera>();
-            if (_current == PlayerState.WALK || _current == PlayerState.STILL || _current == PlayerState.FALL)
-            {
-                camera.FollowCharacter(Bounds, GraphicsDevice.Viewport);
-            }
-            else if(!hasCollided)
-            {
-                camera.FollowCharacter(Bounds, GraphicsDevice.Viewport);
-            }
+            camera.FollowCharacter(Bounds, Game.GraphicsDevice.Viewport);
 
-            Bounds = new Rectangle((int)Sprite.position.X, (int)Sprite.position.Y, Sprite.SpriteWidth, Sprite.SpriteHeight);
-            collisionRect = new Rectangle(Bounds.Location.X, Bounds.Location.Y, Bounds.Width, Bounds.Height + 5);
+            Bounds = new Rectangle((int)Sprite.position.X, (int)Sprite.position.Y + 15, Sprite.SpriteWidth, Sprite.SpriteHeight - 15);
+            collisionRect = new Rectangle(Bounds.Location.X, Bounds.Location.Y, Bounds.Width, Bounds.Height + 7);
+            sideOnCollisionRect = new Rectangle(Bounds.Location.X, Bounds.Location.Y, Bounds.Width + 7, Bounds.Height);
             GamePadState state = GamePad.GetState(index);
-
-            previousPosition = Sprite.position;
 
             var newCollisions = tiles.collisons.Where(c => c.collider.Intersects(collisionRect)).ToList();
             //all tiles that are in collision with player bounds
-            var collisionSet = tiles.collisons.Where(c => c.collider.Intersects(Bounds)).ToList();
+            var collisionSet = tiles.collisons.Where(c => c.collider.Intersects(sideOnCollisionRect)).ToList();
 
             //Booleans to help the switch statements with decisions
             bool isJumping = false;
             bool isFalling = false;
             bool hasCollidedBottom = false;
+            bool LeftSide = false;
+            bool RightSide = false;
 
-
-            // If the Player is too far off the screen to the left and is still trying to go that way
-            if (Sprite.position.X < 0 - Bounds.Width / 2 && state.ThumbSticks.Left.X < 0)
-                // He's Gone too far left
-                tooFarLeft = true;
-            // if the player has gone to far to the Right of the Screen and is still trying to go that way
-            if (Sprite.position.X >= (camera.WorldBound.X / 2 - Bounds.Width) && state.ThumbSticks.Left.X > 0)
-                // hes going too far right
-                tooFarRight = true;
-
-            // if Player falls off screen put him back to his initial start position
-            if (Sprite.position.Y >= camera.WorldBound.Y /2)
+            if(state.ThumbSticks.Left.X > 0)
             {
-                Sprite.position = Position;
+                LeftSide = true;
+            }
+            else if(state.ThumbSticks.Left.X < 0)
+            {
+                RightSide = true;
             }
 
             //Switch statement to check Players State within the game
@@ -179,18 +159,18 @@ namespace GameAttempt.Components
             {
                 case PlayerState.FALL:
 
+                    previousPosition = Sprite.position;
+
                     //Move player down by 5 every frame to simulate falling & Check thumbstick position
-                    Sprite.position.Y += 5;            
-                  
-                    Sprite.position.X += state.ThumbSticks.Left.X * speed;                       
-                    
+                    Sprite.position.Y += 5;
+                    Sprite.position.X += state.ThumbSticks.Left.X * speed;
 
                     //Check for collisions between the top and bottom of the rectangles
                     for (int i = 0; i < newCollisions.Count - 1; i++)
                     {
                         distance = collisionRect.Bottom - newCollisions[i].collider.Top;
 
-                        if (distance > 0)
+                        if (distance > -1)
                         {
                             //move the player back horizontally to it's previous position
                             //set the boolean to true (to say the player has something to stand on)
@@ -212,7 +192,11 @@ namespace GameAttempt.Components
                     }
                     if (state.ThumbSticks.Left.X != 0)
                     {
-                        _current = PlayerState.WALK;
+                        if (!Collision(collisionSet))
+                        {
+                            speed = 7;
+                            _current = PlayerState.WALK;
+                        }
                     }
                     if (InputManager.IsButtonPressed(Buttons.A))
                     {
@@ -220,12 +204,10 @@ namespace GameAttempt.Components
                     }
                     break;
 
-                case PlayerState.WALK:                                         
-                   
-                    // If hes gone too far in either direction Stop him from moving
-                    if(!tooFarRight && !tooFarLeft)
-                        Sprite.position.X += state.ThumbSticks.Left.X * speed;
+                case PlayerState.WALK:
 
+                    Sprite.position.X += state.ThumbSticks.Left.X * speed;
+                    previousPosition = Sprite.position;
 
                     if (newCollisions.Count <= 0)
                     {
@@ -233,70 +215,45 @@ namespace GameAttempt.Components
                         _current = PlayerState.FALL;
                         break;
                     }
-                    
-                    for (int i = 0; i < collisionSet.Count - 1; i++)
+                    if(Collision(collisionSet))
                     {
-                        //Check the distance between the two rectangles ahead of time
-                        playerRightSideDistance = Bounds.Left - collisionSet[i].collider.Left;
-                        playerLeftSideDistance = Bounds.Left - collisionSet[i].collider.Right;
-                    
-                        //colliding from left
-                        if (playerRightSideDistance >= 1 && playerLeftSideDistance <= 191)
+                        if(LeftSide)
                         {
-                            hasCollided = true;
-                            //bounce the player backwards from the thing it's colliding with
-                            Sprite.position.X = previousPosition.X + 25;
+                            Sprite.position.X = previousPosition.X - 18;
                             _current = PlayerState.STILL;
-                            //Check to see if the Player has soemthing to stand on
-                            if (hasCollidedBottom == false)
-                            {
-                                //need to change this so the fall state occurs but it doesnt change the draw
-                                _current = PlayerState.FALL;
-                            }
-                            break;
                         }
-                        else if (playerLeftSideDistance <= 0 && playerRightSideDistance <= 0)
+                        else if(RightSide)
                         {
-                            hasCollided = true;
-                            Sprite.position.X = previousPosition.X - 25;
+                            Sprite.position.X = previousPosition.X + 18;
                             _current = PlayerState.STILL;
-                            //Check to see if the Player has something to stand on
-                            if (hasCollidedBottom == false)
-                            {
-                                _current = PlayerState.FALL;
-                            }
-                    
-                            break;
                         }
-                    }
-                    
+                        if(hasCollidedBottom)
+                        {
+                            _current = PlayerState.FALL;
+                        }
+                    }                   
                     if (sndWalkIns.State != SoundState.Playing)
                     {
-                        sndWalkIns.Play();
+                        //sndWalkIns.Play();
                         //sndWalkIns.IsLooped = true;
                     }
-                    
+
                     if (state.ThumbSticks.Left.X == 0)
                     {
                         _current = PlayerState.STILL;
                     }
                     if (state.ThumbSticks.Left.X > 0)
                     {
-                        tooFarLeft = false; // Allow him to move inthe left direction again
                         tiles.effect = SpriteEffects.FlipHorizontally;
-                        
                     }
                     if (state.ThumbSticks.Left.X < 0)
                     {
-                        tooFarRight = false;    // allow him to move in the right direction again
-                        tiles.effect = SpriteEffects.None;                          
+                        tiles.effect = SpriteEffects.None;
                     }
                     if (InputManager.IsButtonPressed(Buttons.A) && !isJumping && !isFalling)
                     {
                         _current = PlayerState.JUMP;
-                    }                
-                    
-                    
+                    }
                     break;
 
                 case PlayerState.JUMP:
@@ -304,7 +261,6 @@ namespace GameAttempt.Components
                     if (!isJumping)
                     {
                         Sprite.position.Y -= 120;
-                        if(!tooFarRight && !tooFarLeft)
                         Sprite.position.X += state.ThumbSticks.Left.X * speed;
                         isJumping = true;
                         _current = PlayerState.FALL;
@@ -320,16 +276,22 @@ namespace GameAttempt.Components
                         sndJumpIns.Stop();
                     }
 
-                    //Sprite.position.Y -= 1;
-                    //_current = PlayerState.FALL;
-
                     break;
             }
 
-            playerLeftSideDistance += 0;
-            playerRightSideDistance += 0;
-
             base.Update(gameTime);
+        }
+
+        public bool Collision(List<Collider> collisionSet)
+        {
+            for (int i = 0; i < collisionSet.Count - 1; i++)
+            {
+                if (collisionSet[i].collider.Intersects(Bounds))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public override void Draw(GameTime gameTime)
@@ -339,30 +301,30 @@ namespace GameAttempt.Components
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Cam.CurrentCamTranslation);
             
-            
             switch (_current)
             {
                 case PlayerState.STILL:
                     spriteBatch.Draw(Sprite.SpriteImage, Sprite.BoundingRect, Sprite.StillSource, Color.White, 0f, Vector2.Zero, tiles.effect, 0f);
                     break;
-
                 case PlayerState.JUMP:
                     spriteBatch.Draw(Sprite.SpriteImage, Sprite.BoundingRect, Sprite.FallSource, Color.White, 0f, Vector2.Zero, tiles.effect, 0f);
                     break;
-                case PlayerState.WALK:                    
+                case PlayerState.WALK:
+                    
                     spriteBatch.Draw(Sprite.SpriteImage, Sprite.BoundingRect, Sprite.WalkSource, Color.White, 0f, Vector2.Zero, tiles.effect, 0f);
                     break;
                 case PlayerState.FALL:
                     spriteBatch.Draw(Sprite.SpriteImage, Sprite.BoundingRect, Sprite.FallSource, Color.White, 0f, Vector2.Zero, tiles.effect, 0f);
                     break;
             }
-         
-            spriteBatch.DrawString(font, _current.ToString(), new Vector2(100, 200), Color.Black);
-            spriteBatch.DrawString(font, Bounds.ToString(), new Vector2(100, 220), Color.Black);
-            spriteBatch.DrawString(font, collisionRect.ToString(), new Vector2(400, 220), Color.Black);
-            spriteBatch.DrawString(font, distance.ToString(), new Vector2(100, 240), Color.Black);
-            spriteBatch.DrawString(font, playerRightSideDistance.ToString(), new Vector2(220, 240), Color.Black);
-            spriteBatch.DrawString(font, playerLeftSideDistance.ToString(), new Vector2(340, 240), Color.Black);
+            spriteBatch.DrawString(font, _current.ToString(), new Vector2(Sprite.position.X + 5, Sprite.position.Y - 10), Color.Black);
+            spriteBatch.DrawString(font, previousPosition.X.ToString(), new Vector2(Sprite.position.X + 150, Sprite.position.Y - 10), Color.Black);
+            spriteBatch.DrawString(font, Sprite.position.X.ToString(), new Vector2(Sprite.position.X - 150, Sprite.position.Y - 10), Color.Red);
+            //spriteBatch.DrawString(font, Bounds.ToString(), new Vector2(100, 220), Color.Black);
+            //spriteBatch.DrawString(font, collisionRect.ToString(), new Vector2(400, 220), Color.Black);
+            //spriteBatch.DrawString(font, distance.ToString(), new Vector2(100, 240), Color.Black);
+            //spriteBatch.DrawString(font, playerRightSideDistance.ToString(), new Vector2(220, 240), Color.Black);
+            //spriteBatch.DrawString(font, playerLeftSideDistance.ToString(), new Vector2(340, 240), Color.Black);
             spriteBatch.End();
 
             base.Draw(gameTime);
