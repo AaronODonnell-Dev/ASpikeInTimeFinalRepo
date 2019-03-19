@@ -41,11 +41,11 @@ namespace GameAttempt
 
         protected override void LoadContent()
         {
-            //Audio
-            Lvl1Song = Content.Load<Song>("Audio/dinoParkLvl1");
-            Lvl2Song = Content.Load<Song>("Audio/dinoParkLvl1");
-            Lvl3Song = Content.Load<Song>("Audio/dinoParkLvl1");
-            Lvl4Song = Content.Load<Song>("Audio/dinoParkLvl1");
+            ////Audio
+            //Lvl1Song = Content.Load<Song>("Audio/dinoParkLvl1");
+            //Lvl2Song = Content.Load<Song>("Audio/dinoParkLvl1");
+            //Lvl3Song = Content.Load<Song>("Audio/dinoParkLvl1");
+            //Lvl4Song = Content.Load<Song>("Audio/dinoParkLvl1");
 
             tiles = Services.GetService<TRender>();
             //if(tiles._current == TRender.LevelStates.LevelOne )
@@ -66,28 +66,28 @@ namespace GameAttempt
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            //    Exit();
 
 
-            switch (tiles._current)
-            {
-                case TRender.LevelStates.LevelOne:
-                    tiles.BackgroundMusic = Lvl1Song;
-                    break;
+            //switch (tiles._current)
+            //{
+            //    case TRender.LevelStates.LevelOne:
+            //        tiles.BackgroundMusic = Lvl1Song;
+            //        break;
 
-                case TRender.LevelStates.LevelTwo:
-                    tiles.BackgroundMusic = Lvl2Song;
-                    break;
+            //    case TRender.LevelStates.LevelTwo:
+            //        tiles.BackgroundMusic = Lvl2Song;
+            //        break;
 
-                case TRender.LevelStates.LevelThree:
-                    tiles.BackgroundMusic = Lvl3Song;
-                    break;
+            //    case TRender.LevelStates.LevelThree:
+            //        tiles.BackgroundMusic = Lvl3Song;
+            //        break;
 
-                case TRender.LevelStates.LevelFour:
-                    tiles.BackgroundMusic = Lvl4Song;
-                    break;
-            }
+            //    case TRender.LevelStates.LevelFour:
+            //        tiles.BackgroundMusic = Lvl4Song;
+            //        break;
+            //}
 
             base.Update(gameTime);
         }

@@ -66,9 +66,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\Audio\dinoParkLvl1.mp3" />
-    <Content Include="Content\Audio\GreenGrave_mp3.mp3" />
+    <Content Include="Content\Audio\dinoParkLvl1Final.mp3" />
+    <Content Include="Content\Audio\FalloutLvl3Final.mp3" />
+    <Content Include="Content\Audio\IceAgeLvl2Final.mp3" />
     <Content Include="Content\Audio\jump_snd.wav" />
+    <Content Include="Content\Audio\MelvinsMothershipLvl4Final.mp3" />
     <Content Include="Content\Audio\step_snd.wav" />
     <Content Include="Content\Sprites\Collison.png" />
     <Content Include="Content\Sprites\DinoParkBackgroundFinal.png" />

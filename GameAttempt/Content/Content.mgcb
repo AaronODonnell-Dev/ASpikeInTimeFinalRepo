@@ -13,23 +13,35 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin Audio/dinoParkLvl1.mp3
+#begin Audio/dinoParkLvl1Final.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
 /processorParam:Quality=Best
-/build:Audio/dinoParkLvl1.mp3
+/build:Audio/dinoParkLvl1Final.mp3
 
-#begin Audio/GreenGrave_mp3.mp3
+#begin Audio/FalloutLvl3Final.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
 /processorParam:Quality=Best
-/build:Audio/GreenGrave_mp3.mp3
+/build:Audio/FalloutLvl3Final.mp3
+
+#begin Audio/IceAgeLvl2Final.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Audio/IceAgeLvl2Final.mp3
 
 #begin Audio/jump_snd.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Audio/jump_snd.wav
+
+#begin Audio/MelvinsMothershipLvl4Final.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Audio/MelvinsMothershipLvl4Final.mp3
 
 #begin Audio/step_snd.wav
 /importer:WavImporter

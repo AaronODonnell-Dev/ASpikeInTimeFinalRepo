@@ -31,11 +31,11 @@ namespace GameAttempt.Components
             
             // Check for collisions with player
             PlayerComponent player = Game.Services.GetService<PlayerComponent>();
-            if ()
-            {
-                Enabled = false;
-                Visible = false;
-            }
+            //if ()
+            //{
+            //    Enabled = false;
+            //    Visible = false;
+            //}
             base.Update(gametime);
         }
 
@@ -45,7 +45,7 @@ namespace GameAttempt.Components
             TRender render = Game.Services.GetService<TRender>();
             spriteBatch.Begin();
 
-            spriteBatch.Draw(render.tSheet, Position, imageRect, Color.White);
+            spriteBatch.Draw(render.tSheet, new Vector2(myframe.TLocX, myframe.TLocY), imageRect, Color.White);
             spriteBatch.End();
 
             base.Draw(gameTime);
