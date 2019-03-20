@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -24,9 +25,11 @@ namespace GameAttempt.Components
         Rectangle imageRect;
         Vector2 Position;
         Rectangle boundingRect;
+        SoundEffect EnemyOof;
 
         public override void Initialize()
         {
+            EnemyOof = Game.Content.Load<SoundEffect>("Audio/EnemyOof");
             base.Initialize();
         }
 
@@ -59,6 +62,7 @@ namespace GameAttempt.Components
             {
                 if(player.Bounds.Intersects(boundingRect))
                 {
+                    EnemyOof.Play();
                     player.ResetPlayer();
                     Visible = false;
                     Enabled = false;

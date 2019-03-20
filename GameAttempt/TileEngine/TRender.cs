@@ -23,6 +23,7 @@ namespace GameAttempt
 
         //References for Components
         public TRef Collectable;
+        public TRef GoldenGem;
         public TRef OpenPortal;
         public TRef ClosedPortal;
         public TRef SlugEnemy;
@@ -33,6 +34,7 @@ namespace GameAttempt
         Texture2D LevelTwoBkGrnd;
         Texture2D LevelThreeBkGrnd;
         Texture2D LevelFourBkGrnd;
+        Texture2D GoldenGemTex;
         public SpriteEffects effect;
 
         //List of Collectables
@@ -202,6 +204,7 @@ namespace GameAttempt
 
             //TRefs needed to be passed into Component classes to be drawn, had to be multiplied by 128, the size of the tiles
             Collectable = new TRef(128 * 8, 128, 64);
+            GoldenGem = new TRef(0, 0, 82);
             ClosedPortal = new TRef(128 * 8, 128 * 2, 67);
             OpenPortal = new TRef(128 * 9, 128 * 2, 68);
 
@@ -219,6 +222,7 @@ namespace GameAttempt
         protected override void LoadContent()
         {
             //Loading all backgrounds and Audio
+            GoldenGemTex = Game.Content.Load<Texture2D>("Sprites/GoldenGem");
             LevelOneBkGrnd = Game.Content.Load<Texture2D>("Sprites/DinoParkBackgroundFinal");
             LevelTwoBkGrnd = Game.Content.Load<Texture2D>("Sprites/IceAgeLevel2Final");
             LevelThreeBkGrnd = Game.Content.Load<Texture2D>("Sprites/FalloutLevel3Final");
@@ -329,6 +333,7 @@ namespace GameAttempt
             tRefs.Add(new TRef(0, 2, 79));  // Impassible Ground
             tRefs.Add(new TRef(0, 0, 80));  // Ground that can be walked through
             tRefs.Add(new TRef(8, 1, 81));
+            tRefs.Add(GoldenGem);
 
 
 
@@ -415,7 +420,8 @@ namespace GameAttempt
                                 "TreeBottomlvl3" ,
                                 "ImpassableGround",
                                 "WalkThroughGround",
-                                "Collectable"
+                                "Collectable",
+                                "GoldenGem",
                                 }; 
 
             impassableTiles = new string[] { "GroundLv1Top",
@@ -573,7 +579,7 @@ namespace GameAttempt
                         new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(400, 800)),
                         new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(950, 780)),
                         new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(1250, 750)),
-                        new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(1400, 260)),
+                        new CollectableComponent (Game, GoldenGemTex, GoldenGem, tileManager, new Vector2(2200, 1000)),
                         new CollectableComponent (Game, tSheet, Collectable, tileManager, new Vector2(150, 300))
                         };
 

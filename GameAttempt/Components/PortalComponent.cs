@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -26,9 +27,11 @@ namespace GameAttempt.Components
         Rectangle imageRect;
         Vector2 Position;
         Rectangle boundingRect;
+        SoundEffect PortalWhoosh;
 
         public override void Initialize()
         {
+            PortalWhoosh = Game.Content.Load<SoundEffect>("Audio/PortalWhoosh");
             base.Initialize();
         }
 
@@ -71,6 +74,7 @@ namespace GameAttempt.Components
                         //check if the player intersects with the open portal
                         if (boundingRect.Intersects(player.Bounds) && PortalOpen)
                         {
+                            PortalWhoosh.Play();
                             Visible = false;
                             Enabled = false;
                             player.Collectables = 0;
